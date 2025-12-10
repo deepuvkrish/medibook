@@ -6,11 +6,25 @@ import { MdOutlineAlternateEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
+import { CiWarning } from "react-icons/ci";
 
-const Login = () => {
+import { useActionState } from "react";
+import { authenticate } from "@/app/lib/actions";
+import { useSearchParams } from "next/navigation";
+
+export default function Login() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const [errorMessage, formAction, isPending] = useActionState(
+    authenticate,
+    undefined
+  );
   return (
     <StyledWrapper>
-      <form className="form md:w-[400px] w-full flex flex-col gap-2.5 dark:bg-[#1f1f1f] bg-gray-200 md:p-[30px] p-5 rounded-[20px]">
+      <form
+        className="form md:w-[400px] w-full flex flex-col gap-2.5 dark:bg-[#1f1f1f] bg-gray-200 md:p-[30px] p-5 rounded-[20px]"
+        action={formAction}
+      >
         <div className="flex-column">
           <label className="text-gray-600 dark:text-white">Email </label>
         </div>
@@ -20,10 +34,11 @@ const Login = () => {
             type="text"
             className="input ml-2.5 rounded-[10px] w-full h-full dark:bg-[#2b2b2b] bg-gray-300 dark:text-[#f1f1f1] text-gray-700 "
             placeholder="Enter your Email"
+            required
           />
         </div>
         <div className="flex-column">
-          <label>Password </label>
+          <label className="text-gray-600 dark:text-white">Password </label>
         </div>
         <div className="inputForm dark:bg-[#2b2b2b] bg-gray-300 h-[50px] flex items-center pl-2.5 rounded-[10px] border dark:border-[#333] border-gray-400/50">
           <IoMdLock />
@@ -31,32 +46,52 @@ const Login = () => {
             type="password"
             className="input ml-2.5 rounded-[10px] w-full h-full dark:bg-[#2b2b2b] bg-gray-300 dark:text-[#f1f1f1] text-gray-700"
             placeholder="Enter your Password"
+            required
           />
         </div>
+        <input type="hidden" name="redirectTo" value={callbackUrl} />
         <div className="flex-row">
           <Checkbox name="remember me" />
           <span className="span">Forgot password?</span>
         </div>
 
-        <button className="button-submit">Sign In</button>
-        <p className="p">
-          Don't have an account? <span className="span">Sign Up</span>
+        <button
+          className="button-submit bg-[#2d79f3] text-white hover:bg-[#0f97ff] duration-300 rounded-[10px] h-[50px] w-full cursor-pointer font-medium text-[15px]"
+          aria-disabled={isPending}
+        >
+          Sign In
+        </button>
+        <p className="p dark:text-[#f1f1f1] text-gray-700">
+          Don't have an account?{" "}
+          <span className="span hover:underline">Sign Up</span>
         </p>
-        <p className="p line">Or With</p>
+        <p className="p line dark:text-[#f1f1f1] text-gray-700">Or With</p>
         <div className="flex-row">
-          <button className="btn google">
+          <button className="btn google hover:bg-gray-800 bg-[#2b2b2b]">
             <FcGoogle className="text-xl" />
             Google
           </button>
-          <button className="btn apple">
+          <button className="btn apple hover:bg-gray-800 bg-[#2b2b2b]">
             <FaApple className="dark:invert text-xl" />
             Apple
           </button>
         </div>
+        <div
+          className="flex h-8 items-end space-x-1"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {errorMessage && (
+            <>
+              <CiWarning className="h-5 w-5 text-red-500" />
+              <p className="text-sm text-red-500">{errorMessage}</p>
+            </>
+          )}
+        </div>
       </form>
     </StyledWrapper>
   );
-};
+}
 
 const StyledWrapper = styled.div`
   ::placeholder {
@@ -70,7 +105,6 @@ const StyledWrapper = styled.div`
   }
 
   .flex-column > label {
-    color: #f1f1f1;
     font-weight: 600;
   }
 
@@ -110,20 +144,10 @@ const StyledWrapper = styled.div`
 
   .button-submit {
     margin: 20px 0 10px 0;
-    background-color: #2d79f3;
-    border: none;
-    color: white;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 10px;
-    height: 50px;
-    width: 100%;
-    cursor: pointer;
   }
 
   .p {
     text-align: center;
-    color: #f1f1f1;
     font-size: 14px;
     margin: 5px 0;
   }
@@ -138,16 +162,8 @@ const StyledWrapper = styled.div`
     align-items: center;
     font-weight: 500;
     gap: 10px;
-    border: 1px solid #333;
-    background-color: #2b2b2b;
     color: #f1f1f1;
     cursor: pointer;
     transition: 0.2s ease-in-out;
   }
-
-  .btn:hover {
-    border: 1px solid #2d79f3;
-  }
 `;
-
-export default Login;
