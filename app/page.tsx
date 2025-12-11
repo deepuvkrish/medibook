@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen justify-around items-center bg-zinc-50 font-sans dark:bg-black w-full md:px-5 px-1">
-      <main className="flex md:flex-row flex-col md:w-[90%] w-full justify-between items-center md:px-10 px-3">
+    <div className="flex flex-col min-h-screen justify-between md:justify-around items-center bg-zinc-50 font-sans dark:bg-black w-full md:px-5 px-1">
+      <main className="flex md:flex-row flex-col md:w-[90%] w-full justify-between items-center md:px-10 px-3 h-[75%] md:h-auto">
         <div className="logo w-3/4 md:justify-baseline justify-center md:items-baseline items-center flex flex-col min-h-full pl-0 md:pl-20">
           <Image
             src="/logo/medi.png"
