@@ -5,11 +5,11 @@ import { Suspense } from "react";
 export default function LoginPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">
-      <div className="relative  flex md:flex-row w-full flex-col justify-around items-center">
-        <div className="flex items-end p-3 w-3/4">
+      <div className="relative flex md:flex-row w-full flex-col md:justify-around  justify-center items-center">
+        <div className="flex md:items-end items-center justify-center p-3 md:w-3/4 w-full">
           <MedLogo />
         </div>
-        <div className="w-1/4">
+        <div className="md:w-1/4 w-full flex justify-center items-center">
           <Suspense>
             <LoginForm />
           </Suspense>

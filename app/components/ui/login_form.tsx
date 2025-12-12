@@ -1,6 +1,6 @@
 "use client";
 
-import { lusitana } from "@/app/components/ui/fonts";
+import { inter } from "@/app/components/ui/fonts";
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -21,40 +21,38 @@ export default function LoginForm() {
 
   return (
     <form action={formAction} className="space-y-3 w-[300px]">
-      <div className="flex-1 rounded-lg bg-gray-800 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-          Please log in to continue.
-        </h1>
+      <div className="flex flex-col rounded-lg dark:bg-gray-800 bg-gray-200 px-6 pb-4 pt-8 justify-center items-center">
+        <h1 className={`${inter.className} mb-3 text-2xl`}>Log in</h1>
         <div className="w-full">
           <div>
             <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-100"
+              className="mb-3 mt-5 block text-xs font-medium dark:text-gray-100 text-gray-700"
               htmlFor="email"
             >
               Email
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border dark:border-gray-500 border-gray-200  py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="email"
                 type="email"
                 name="email"
                 placeholder="Enter your email address"
                 required
               />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-700 peer-focus:text-gray-100" />
+              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-300 dark:text-gray-700 peer-focus:text-gray-100 dark:peer-focus:text-gray-700" />
             </div>
           </div>
           <div className="mt-4">
             <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-100"
+              className="mb-3 mt-5 block text-xs font-medium dark:text-gray-100 text-gray-700"
               htmlFor="password"
             >
               Password
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border dark:border-gray-500 border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="password"
                 type="password"
                 name="password"
@@ -62,13 +60,13 @@ export default function LoginForm() {
                 required
                 minLength={6}
               />
-              <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-700 peer-focus:text-gray-100" />
+              <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-300 dark:text-gray-700 peer-focus:text-gray-100 dark:peer-focus:text-gray-700" />
             </div>
           </div>
         </div>
         <input type="hidden" name="redirectTo" value={callbackUrl} />
         <button
-          className="mt-4 w-full cursor-pointer bg-blue-500 flex justify-center  py-2 rounded-md items-center hover:bg-blue-600"
+          className="mt-4 w-full cursor-pointer bg-blue-500 flex justify-center  py-2 rounded-md items-center hover:bg-blue-600 text-white"
           aria-disabled={isPending}
         >
           Log in <ArrowRightIcon className="ml-2 h-5 w-5 text-gray-50" />
