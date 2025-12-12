@@ -1,31 +1,93 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
-  SidebarHeader,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarFooter,
 } from "@/app/components/ui/sidebar";
 import { signOut } from "@/auth";
-import { PowerIcon } from "lucide-react";
+import { ChevronUp, PowerIcon, User2 } from "lucide-react";
+import { dashboardmenuitems } from "@/app/lib/menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/app/components/ui/dropdown-menu";
 
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader />
-      <SidebarContent>
+      <SidebarContent className="pl-1">
         <SidebarGroup />
+        <SidebarGroupLabel className="text-xl">MediBook</SidebarGroupLabel>
+        <SidebarGroupContent className="pl-3">
+          <SidebarMenu>
+            {dashboardmenuitems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton asChild>
+                  <a href={item.url}>
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User2 /> Username
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="top"
+                className="w-[--radix-popper-anchor-width]"
+              >
+                <DropdownMenuItem>
+                  <span>Account</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <form
+                    action={async () => {
+                      "use server";
+                      await signOut({ redirectTo: "/" });
+                    }}
+                  >
+                    <button className="flex w-full h-12 grow items-center justify-center gap-2 text-sm font-medium border-t">
+                      <PowerIcon className="w-6" />
+                      <div className="block">Sign Out</div>
+                    </button>
+                  </form>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
       <form
         action={async () => {
           "use server";
           await signOut({ redirectTo: "/" });
         }}
       >
-        <button className="flex h-12 grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+        <button className="flex w-full h-12 grow items-center justify-center gap-2 rounded-md bg-gray-500 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
           <PowerIcon className="w-6" />
-          <div className="hidden md:block">Sign Out</div>
+          <div className="block">Sign Out</div>
         </button>
       </form>
     </Sidebar>
