@@ -1,0 +1,39 @@
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { ROLE_ROUTES } from "@/app/lib/roles";
+
+export async function middleware(req: NextRequest) {
+  const session = await auth();
+  const pathname = req.nextUrl.pathname;
+
+  // Public routes
+  if (pathname === "/" || pathname === "/login") {
+    return NextResponse.next();
+  }
+
+  // No session → login
+  if (!session) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  const role = session.user.role as keyof typeof ROLE_ROUTES;
+  const allowedRoutes = ROLE_ROUTES[role] || [];
+
+  const isAllowed = allowedRoutes.some((route) => pathname.startsWith(route));
+
+  if (!isAllowed) {
+    return NextResponse.redirect(new URL("/unauthorized", req.url));
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/dashboard/:path*",
+    "/admin/:path*",
+    "/users/:path*",
+    "/profile/:path*",
+  ],
+};
