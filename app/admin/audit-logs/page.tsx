@@ -1,9 +1,9 @@
 import { getAuditLogs } from "@/app/lib/data/audit";
-import { AuditTable } from "@/app/components/admin/audit-table";
-import { AuditFilters } from "@/app/components/admin/audit-filters";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import AuditClient from "./audit-client";
+
 type Props = {
   searchParams: {
     action?: string;
@@ -33,15 +33,24 @@ export default async function AuditLogsPage({ searchParams }: Props) {
   const totalPages = Math.ceil(total / pageSize);
 
   return (
-    <Suspense fallback={null}>
-      <div className="p-6 space-y-6">
-        <div>
-          <h1 className="text-2xl font-semibold">Audit Logs</h1>
-          <p className="text-muted-foreground">Filtered system activity</p>
-        </div>
-        <AuditFilters />
-        <AuditTable logs={logs} page={page} totalPages={totalPages} />
+    <div className="p-6 space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold">Audit Logs</h1>
+        <p className="text-muted-foreground">Filtered system activity</p>
       </div>
-    </Suspense>
+
+      <Suspense fallback={<AuditSkeleton />}>
+        <AuditClient logs={logs} page={page} totalPages={totalPages} />
+      </Suspense>
+    </div>
+  );
+}
+
+function AuditSkeleton() {
+  return (
+    <div className="space-y-4">
+      <div className="h-10 w-full bg-muted rounded-md" />
+      <div className="h-64 w-full bg-muted rounded-md" />
+    </div>
   );
 }
