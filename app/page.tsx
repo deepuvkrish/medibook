@@ -6,6 +6,7 @@ import MediLogo from "./components/ui/med-logo";
 import LandingFooter from "./components/layout/LandingFooter";
 import { FaApple } from "react-icons/fa";
 import { BiLogoPlayStore } from "react-icons/bi";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -60,11 +61,24 @@ export default function Home() {
           </div>
         </div>
         <div className="h-[500px] w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-          <LoginForm />
+          <Suspense fallback={<LoginSkeleton />}>
+            <LoginForm />
+          </Suspense>
         </div>
       </main>
 
       <LandingFooter />
+    </div>
+  );
+}
+
+function LoginSkeleton() {
+  return (
+    <div className="space-y-4 animate-pulse">
+      <div className="h-6 bg-muted rounded" />
+      <div className="h-10 bg-muted rounded" />
+      <div className="h-10 bg-muted rounded" />
+      <div className="h-10 bg-muted rounded" />
     </div>
   );
 }
