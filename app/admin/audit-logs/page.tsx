@@ -3,7 +3,7 @@ import { AuditTable } from "@/app/components/admin/audit-table";
 import { AuditFilters } from "@/app/components/admin/audit-filters";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-
+import { Suspense } from "react";
 type Props = {
   searchParams: {
     action?: string;
@@ -38,10 +38,10 @@ export default async function AuditLogsPage({ searchParams }: Props) {
         <h1 className="text-2xl font-semibold">Audit Logs</h1>
         <p className="text-muted-foreground">Filtered system activity</p>
       </div>
-
-      <AuditFilters />
-
-      <AuditTable logs={logs} page={page} totalPages={totalPages} />
+      <Suspense>
+        <AuditFilters />
+        <AuditTable logs={logs} page={page} totalPages={totalPages} />
+      </Suspense>
     </div>
   );
 }
