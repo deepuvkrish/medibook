@@ -4,6 +4,7 @@ const medbookusers = [
     lname: "Test",
     email: "user@nextmail.com",
     password: "123456",
+    role: "developer",
   },
 ];
 

@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 import postgres from "postgres";
 import { authConfig } from "./auth.config";
 
+import { logAudit } from "@/app/lib/audit/logger";
+import { AUDIT_ACTIONS } from "@/app/lib/audit/actions";
+
 const sql = postgres(process.env.POSTGRES_URL_NON_POOLING!, {
   ssl: "require",
 });
@@ -29,6 +32,7 @@ async function getUserByEmail(email: string): Promise<DBUser | null> {
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
+
   providers: [
     Credentials({
       name: "Credentials",
@@ -37,7 +41,14 @@ export const { auth, signIn, signOut } = NextAuth({
         password: { type: "password" },
       },
 
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+        const ip =
+          req?.headers?.get("x-forwarded-for") ??
+          req?.headers?.get("x-real-ip") ??
+          undefined;
+
+        const userAgent = req?.headers?.get("user-agent") ?? undefined;
+
         const parsed = z
           .object({
             email: z.string().email(),
@@ -45,17 +56,57 @@ export const { auth, signIn, signOut } = NextAuth({
           })
           .safeParse(credentials);
 
-        if (!parsed.success) return null;
+        // ❌ Invalid payload
+        if (!parsed.success) {
+          await logAudit({
+            action: AUDIT_ACTIONS.LOGIN_FAILED,
+            ip,
+            userAgent,
+          });
+          return null;
+        }
 
         const { email, password } = parsed.data;
         const user = await getUserByEmail(email);
 
-        if (!user) return null;
+        // ❌ User not found
+        if (!user) {
+          await logAudit({
+            action: AUDIT_ACTIONS.LOGIN_FAILED,
+            ip,
+            userAgent,
+          });
+          return null;
+        }
 
         const isValid = await bcrypt.compare(password, user.password);
-        if (!isValid) return null;
 
-        // ✅ VERY IMPORTANT: return SAFE user object
+        console.log({
+          inputPassword: password,
+          dbHash: user.password,
+          isValid,
+        });
+
+        // ❌ Wrong password
+        if (!isValid) {
+          await logAudit({
+            action: AUDIT_ACTIONS.LOGIN_FAILED,
+            targetId: user.id,
+            ip,
+            userAgent,
+          });
+          return null;
+        }
+
+        // ✅ SUCCESS
+        await logAudit({
+          action: AUDIT_ACTIONS.LOGIN_SUCCESS,
+          targetId: user.id,
+          ip,
+          userAgent,
+        });
+
+        // ✅ SAFE USER OBJECT
         return {
           id: user.id,
           name: user.name,
