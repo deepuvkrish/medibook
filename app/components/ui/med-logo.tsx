@@ -5,7 +5,7 @@ export default function MediLogo() {
     <div className="flex flex-row justify-center items-center leading-none text-white">
       <Image
         alt="logo"
-        src="/logo/ayurlogo.png"
+        src="/logo/heal-12.png"
         width={100}
         height={100}
         priority
