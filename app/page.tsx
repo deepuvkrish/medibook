@@ -9,7 +9,7 @@ import { BiLogoPlayStore } from "react-icons/bi";
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-full logwall items-center">
+    <div className="flex flex-col w-full logwall items-center py-3 md:py-0">
       <div className="absolute md:hidden block">
         <MediLogo />
       </div>

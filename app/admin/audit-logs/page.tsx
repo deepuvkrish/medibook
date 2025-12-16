@@ -33,15 +33,15 @@ export default async function AuditLogsPage({ searchParams }: Props) {
   const totalPages = Math.ceil(total / pageSize);
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Audit Logs</h1>
-        <p className="text-muted-foreground">Filtered system activity</p>
-      </div>
-      <Suspense>
+    <Suspense fallback={null}>
+      <div className="p-6 space-y-6">
+        <div>
+          <h1 className="text-2xl font-semibold">Audit Logs</h1>
+          <p className="text-muted-foreground">Filtered system activity</p>
+        </div>
         <AuditFilters />
         <AuditTable logs={logs} page={page} totalPages={totalPages} />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }
