@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
-import { footerLinks } from "@/app/lib/links";
 import LoginForm from "./components/ui/login_form";
 import MediLogo from "./components/ui/med-logo";
 import LandingFooter from "./components/layout/LandingFooter";
@@ -19,8 +17,8 @@ export default function Home() {
         <div className="hidden md:flex ">
           <div className="flex flex-col items-center w-full p-4 text-center sm:p-8 ">
             <Image
-              src="/logo/ayurlogo.png"
-              width={300}
+              src="/logo/heal-12.png"
+              width={400}
               height={300}
               className="hidden md:block"
               alt="logo"
@@ -35,11 +33,13 @@ export default function Home() {
             <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
               <a
                 href="#"
-                className="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                className="w-full sm:w-auto bg-black hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5  dark:hover:bg-[#4ca0f5] dark:focus:ring-gray-700"
               >
-                <FaApple />
+                <FaApple className="text-xl mr-3" />
                 <div className="text-left rtl:text-right">
-                  <div className="mb-1 text-xs">Download on the</div>
+                  <div className="mb-1 text-[9px] text-pink-200">
+                    Download on the
+                  </div>
                   <div className="-mt-1 font-sans text-sm font-semibold">
                     Mac App Store
                   </div>
@@ -47,11 +47,11 @@ export default function Home() {
               </a>
               <a
                 href="#"
-                className="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                className="w-full sm:w-auto bg-black hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:hover:bg-[#4ca0f5] dark:focus:ring-gray-700"
               >
-                <BiLogoPlayStore />
+                <BiLogoPlayStore className="text-xl mr-3" />
                 <div className="text-left rtl:text-right">
-                  <div className="mb-1 text-xs">Get in on</div>
+                  <div className="mb-1 text-[9px] text-pink-200">Get in on</div>
                   <div className="-mt-1 font-sans text-sm font-semibold">
                     Google Play
                   </div>
@@ -60,7 +60,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="h-[500px] w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div className="h-[500px] w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-[#1e2938a1] dark:border-gray-700">
           <Suspense fallback={<LoginSkeleton />}>
             <LoginForm />
           </Suspense>

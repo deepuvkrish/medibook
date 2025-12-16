@@ -9,6 +9,7 @@ import {
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
+import { IoMdCheckmark } from "react-icons/io";
 
 // Libraries ===============================================>
 import { useActionState } from "react";
@@ -45,11 +46,11 @@ export default function LoginForm() {
             type="email"
             name="email"
             id="email"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white pl-10"
+            className="bg-[#010d1a85] text-gray-100 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 pl-10 loginput"
             placeholder="name@company.com"
             required
           />
-          <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-200 peer-focus:text-blue-400 " />
+          <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-200 peer-focus:text-blue-400 logicon" />
         </div>
       </div>
 
@@ -66,41 +67,32 @@ export default function LoginForm() {
             name="password"
             id="password"
             placeholder="••••••••"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-10 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            className="bg-[#010d1a85] text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-10  dark:placeholder-gray-400 loginput"
             required
             minLength={6}
           />
-          <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-300 peer-focus:text-blue-400" />
+          <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-300 peer-focus:text-blue-400 logicon" />
         </div>
       </div>
       <input type="hidden" name="redirectTo" value={callbackUrl} />
       <div className="flex items-start">
-        <div className="flex items-start">
-          <div className="flex items-center h-5">
-            <input
-              id="remember"
-              type="checkbox"
-              value=""
-              className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-            />
-          </div>
-          <label
-            htmlFor="remember"
-            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Remember me
+        <div className="checkbox-container">
+          <label className="ios-checkbox red mr-2">
+            <input type="checkbox" id="remember" value="" />
+            <div className="checkbox-wrapper">
+              <div className="checkbox-bg" />
+              <IoMdCheckmark className="checkbox-icon" />
+            </div>
           </label>
+          Remember me
         </div>
-        <a
-          href="#"
-          className="ms-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
-        >
+        <a href="#" className="ms-auto text-sm text-[#ff7aac] hover:underline">
           Forgot Password ?
         </a>
       </div>
       <button
         type="submit"
-        className="w-full text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center cursor-pointer"
+        className="w-full text-white bg-[#e6456b] hover:bg-[#a72946] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center cursor-pointer"
         aria-disabled={isPending}
       >
         Login <ArrowRightIcon className="ml-2 h-5 w-5 text-gray-50" />
@@ -117,10 +109,7 @@ export default function LoginForm() {
 
       <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
         Not registered?{" "}
-        <a
-          href="#"
-          className="text-blue-700 hover:underline dark:text-blue-500"
-        >
+        <a href="#" className="text-[#ff7aac] hover:underline ">
           Create account
         </a>
       </div>
