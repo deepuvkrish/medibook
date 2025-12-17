@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SearchIcon } from "lucide-react";
 import MediLogo from "./components/ui/med-logo";
 import LandingFooter from "./components/layout/LandingFooter";
-import { Input } from "@/app/components/ui/input";
+import { MenuCards, GlassCards } from "./components/ui/menuCards";
 
 import {
   InputGroup,
@@ -25,7 +25,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="content  text-gray-700 w-full flex justify-center items-center min-h-[600px]">
+      <div className="content  text-gray-700 w-full flex flex-col justify-center items-center min-h-[600px]">
         <div className="block w-90 h-10">
           <InputGroup>
             <InputGroupInput placeholder="Search..." />
@@ -33,6 +33,16 @@ export default function Home() {
               <SearchIcon />
             </InputGroupAddon>
           </InputGroup>
+        </div>
+        <div className="grid grid-cols-4 gap-2">
+          <MenuCards
+            title="Hospital Search"
+            subtitle="Seach Nearby Hospitals to you."
+          />
+          <GlassCards
+            title="Hospital Search"
+            subtitle="Seach Nearby Hospitals to you."
+          />
         </div>
       </div>
 
