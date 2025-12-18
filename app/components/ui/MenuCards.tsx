@@ -1,18 +1,22 @@
 import React from "react";
+import { ComponentType } from "react";
 
 export function MenuCards({
   title,
   subtitle,
+  icon: Icon,
 }: {
   title: string;
   subtitle: string;
+  icon: ComponentType<{ className?: string }>;
 }) {
   return (
-    <div className="notification">
+    <div className="notification relative">
       <div className="notiglow" />
       <div className="notiborderglow" />
       <div className="notititle">{title}</div>
       <div className="notibody">{subtitle}</div>
+      <Icon className="text-5xl absolute top-2 right-2 menuCardIcn text-gray-400" />
     </div>
   );
 }

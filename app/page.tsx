@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { SearchIcon } from "lucide-react";
 import MediLogo from "./components/ui/med-logo";
+import HealLogo from "./components/ui/heal-logo";
 import LandingFooter from "./components/layout/LandingFooter";
-import { MenuCards, GlassCards } from "./components/ui/menuCards";
-
+import { MenuCards } from "./components/ui/menuCards";
+import { GiHospitalCross } from "react-icons/gi";
+import { FaUserDoctor } from "react-icons/fa6";
+import { GiMedicines } from "react-icons/gi";
+import { ImLab } from "react-icons/im";
 import {
   InputGroup,
   InputGroupAddon,
@@ -24,24 +28,41 @@ export default function Home() {
           </Link>
         </div>
       </div>
-
-      <div className="content  text-gray-700 w-full flex flex-col justify-center items-center min-h-[600px]">
-        <div className="block w-90 h-10">
+      <div className="flex w-full justify-center items-center my-15">
+        <HealLogo w={250} h={250} />
+      </div>
+      <div className="content text-gray-700 w-full flex flex-col justify-center items-center h-100 mb-20">
+        <div className="block w-150 h-10">
           <InputGroup>
-            <InputGroupInput placeholder="Search..." />
+            <InputGroupInput
+              placeholder="Search...hospitals, medicines, treatment, doctors..."
+              className="text-white focus:outline-0 focus:border-0 focus:ring-0"
+            />
             <InputGroupAddon>
               <SearchIcon />
             </InputGroupAddon>
           </InputGroup>
         </div>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 gap-4 mt-10">
           <MenuCards
-            title="Hospital Search"
+            title="Find an Hospital"
             subtitle="Seach Nearby Hospitals to you."
+            icon={GiHospitalCross}
           />
-          <GlassCards
-            title="Hospital Search"
-            subtitle="Seach Nearby Hospitals to you."
+          <MenuCards
+            title="Book your Doctor"
+            subtitle="Seach Nearby Doctors to you."
+            icon={FaUserDoctor}
+          />
+          <MenuCards
+            title="Know Your Medicines"
+            subtitle="Search usage and availability."
+            icon={GiMedicines}
+          />
+          <MenuCards
+            title="Laboratary Search"
+            subtitle="Search Labs."
+            icon={ImLab}
           />
         </div>
       </div>

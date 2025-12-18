@@ -220,14 +220,15 @@
   isolation: isolate;
   position: relative;
   width: 18rem;
-  height: 8rem;
-  background: #29292c;
+  height: 6rem;
+  background: #0c101e75;
   border-radius: 1rem;
   overflow: hidden;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 16px;
   --gradient: linear-gradient(to bottom, #2eadff, #3d83ff, #7e61ff);
   --color: #32a6ff;
+  cursor: pointer;
 }
 
 .notification:before {
@@ -235,7 +236,7 @@
   content: "";
   inset: 0.0625rem;
   border-radius: 0.9375rem;
-  background: #18181b;
+  background: #0c101e5e;
   z-index: 2;
 }
 
@@ -245,7 +246,7 @@
   width: 0.25rem;
   inset: 0.65rem auto 0.65rem 0.5rem;
   border-radius: 0.125rem;
-  background: var(--gradient);
+  background: #e6456b;
   transition: transform 300ms ease;
   z-index: 4;
 }
@@ -253,12 +254,15 @@
 .notification:hover:after {
   transform: translateX(0.15rem);
 }
+.notification:hover .menuCardIcn {
+  color: #2eadff;
+}
 
 .notititle {
-  color: var(--color);
+  color: #ffffff;
   padding: 0.65rem 0.25rem 0.4rem 1.25rem;
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: 20px;
   transition: transform 300ms ease;
   z-index: 5;
 }
@@ -268,7 +272,7 @@
 }
 
 .notibody {
-  color: #99999d;
+  color: #8c8c8c;
   padding: 0 1.25rem;
   transition: transform 300ms ease;
   z-index: 5;
