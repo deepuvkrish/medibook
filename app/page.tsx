@@ -32,7 +32,7 @@ export default function Home() {
         <HealLogo w={250} h={250} />
       </div>
       <div className="content text-gray-700 w-full flex flex-col justify-center items-center h-100 mb-20">
-        <div className="block w-150 h-10">
+        <div className="block md:w-150 w-full h-10 px-5">
           <InputGroup>
             <InputGroupInput
               placeholder="Search...hospitals, medicines, treatment, doctors..."
@@ -43,7 +43,7 @@ export default function Home() {
             </InputGroupAddon>
           </InputGroup>
         </div>
-        <div className="grid grid-cols-4 gap-4 mt-10">
+        <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
           <MenuCards
             title="Find an Hospital"
             subtitle="Seach Nearby Hospitals to you."

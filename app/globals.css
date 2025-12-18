@@ -219,7 +219,7 @@
   flex-direction: column;
   isolation: isolate;
   position: relative;
-  width: 18rem;
+
   height: 6rem;
   background: #0c101e75;
   border-radius: 1rem;
@@ -262,7 +262,6 @@
   color: #ffffff;
   padding: 0.65rem 0.25rem 0.4rem 1.25rem;
   font-weight: 500;
-  font-size: 20px;
   transition: transform 300ms ease;
   z-index: 5;
 }
@@ -323,6 +322,7 @@
   font-size: 0.9rem;
   width: 75%;
 }
+
 /* LOGIN PAGE ========================================================================> */
 
 .loginput:focus {
