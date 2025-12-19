@@ -12,7 +12,7 @@ import { ImLab } from "react-icons/im";
 import MediLogo from "./components/ui/med-logo";
 import HealLogo from "./components/ui/heal-logo";
 import LandingFooter from "./components/layout/LandingFooter";
-// import MenuCards from "@/app/components/ui/menuCards";
+import MenuCards from "@/app/components/ui/menuCards";
 import {
   InputGroup,
   InputGroupAddon,
@@ -49,7 +49,7 @@ export default function Home() {
           </InputGroup>
         </div>
         <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
-          {/* <MenuCards
+          <MenuCards
             title="Find an Hospital"
             subtitle="Seach Nearby Hospitals to you."
             icon={GiHospitalCross}
@@ -72,7 +72,7 @@ export default function Home() {
             subtitle="Search Labs."
             link="/hospital"
             icon={ImLab}
-          /> */}
+          />
         </div>
       </div>
 
