@@ -126,6 +126,9 @@
 .logwall {
   background-image: linear-gradient(90deg, #000d1a, #e6456b);
 }
+.sidebar_custom {
+  background-image: linear-gradient(90deg, #000d1a, #e6456b);
+}
 .LandingCard {
   --landingWhite: hsl(0, 0%, 100%);
   --landingBlack: hsl(240, 15%, 9%);

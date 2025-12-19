@@ -1,13 +1,18 @@
+// Libraries ======================================================>
 import Link from "next/link";
+
+// ICONS ======================================================>
 import { SearchIcon } from "lucide-react";
-import MediLogo from "./components/ui/med-logo";
-import HealLogo from "./components/ui/heal-logo";
-import LandingFooter from "./components/layout/LandingFooter";
-import { MenuCards } from "./components/ui/menuCards";
 import { GiHospitalCross } from "react-icons/gi";
 import { FaUserDoctor } from "react-icons/fa6";
 import { GiMedicines } from "react-icons/gi";
 import { ImLab } from "react-icons/im";
+
+// Components ======================================================>
+import MediLogo from "./components/ui/med-logo";
+import HealLogo from "./components/ui/heal-logo";
+import LandingFooter from "./components/layout/LandingFooter";
+import MenuCards from "./components/ui/menuCards";
 import {
   InputGroup,
   InputGroupAddon,
@@ -48,20 +53,24 @@ export default function Home() {
             title="Find an Hospital"
             subtitle="Seach Nearby Hospitals to you."
             icon={GiHospitalCross}
+            link="/hospital"
           />
           <MenuCards
             title="Book your Doctor"
             subtitle="Seach Nearby Doctors to you."
+            link="/hospital"
             icon={FaUserDoctor}
           />
           <MenuCards
             title="Know Your Medicines"
             subtitle="Search usage and availability."
+            link="/hospital"
             icon={GiMedicines}
           />
           <MenuCards
             title="Laboratary Search"
             subtitle="Search Labs."
+            link="/hospital"
             icon={ImLab}
           />
         </div>

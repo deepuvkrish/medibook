@@ -18,13 +18,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
+import HealLogo from "./heal-logo";
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar className="bg-[#f3e2ea] dark:bg-[##19171f]">
       <SidebarContent className="pl-1">
         <SidebarGroup />
-        <SidebarGroupLabel className="text-xl">MediBook</SidebarGroupLabel>
+        <SidebarGroupLabel className="text-xl">
+          <HealLogo w={100} h={50} />
+        </SidebarGroupLabel>
         <SidebarGroupContent className="pl-3">
           <SidebarMenu>
             {dashboardmenuitems.map((item) => (
