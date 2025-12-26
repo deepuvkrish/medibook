@@ -13,7 +13,7 @@ import {
 // ICONS ======================================================>
 import { SearchIcon } from "lucide-react";
 import { GiHospitalCross } from "react-icons/gi";
-import { FaUserDoctor } from "react-icons/fa6";
+import { FaUserDoctor, FaFilePrescription } from "react-icons/fa6";
 import { GiMedicines } from "react-icons/gi";
 import { ImLab } from "react-icons/im";
 
@@ -37,27 +37,38 @@ export default async function page() {
           <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-10">
             <MenuCards
               title="Find an Hospital"
+              mobtitle="Hospital"
               subtitle="Seach Nearby Hospitals to you."
               icon={GiHospitalCross}
               link="/hospital"
             />
             <MenuCards
               title="Book your Doctor"
+              mobtitle="Doctor"
               subtitle="Seach Nearby Doctors to you."
-              link="/hospital"
+              link="/doctors"
               icon={FaUserDoctor}
             />
             <MenuCards
               title="Know Your Medicines"
+              mobtitle="Medicine"
               subtitle="Search usage and availability."
-              link="/hospital"
+              link="/medicines"
               icon={GiMedicines}
             />
             <MenuCards
               title="Laboratary Search"
+              mobtitle="Laboratary"
               subtitle="Search Labs."
-              link="/hospital"
+              link="/labs"
               icon={ImLab}
+            />
+            <MenuCards
+              title="Records Safe"
+              mobtitle="Records"
+              subtitle="View-Save Records."
+              link="/records"
+              icon={FaFilePrescription}
             />
           </div>
         </div>
