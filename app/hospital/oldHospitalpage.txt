@@ -1,0 +1,157 @@
+import Link from "next/link";
+import Image from "next/image";
+import { HealNavLogo } from "../components/ui/healLogo";
+
+import { hospitals } from "../lib/placeholder_data";
+import { ImLocation } from "react-icons/im";
+import { FaPhone } from "react-icons/fa6";
+import { BiLock } from "react-icons/bi";
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/app/components/ui/breadcrumb";
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarFooter,
+} from "@/app/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/app/components/ui/sidebar";
+
+export default function page() {
+  return (
+    <div className="flex flex-col w-full py-0 md:py-0">
+      <div className="navBar relative flex w-full p-0 md:p-2 h-15 items-center justify-between px-0 md:px-3 dark:bg-[#000d1a] bg-blue-100 z-999">
+        <HealNavLogo w={80} h={50} />
+        <div className="loginnavForm w-1/2 md:w-[200px] flex justify-center">
+          <Link
+            href="/login"
+            className="flex px-2 py-1 md:px-5 text-gray-700 dark:text-white text-lg hover:text-[#e6456b]"
+          >
+            Sign in
+          </Link>
+        </div>
+      </div>
+
+      <div className="flex w-full justify-between">
+        <SidebarProvider>
+          <Sidebar className="bg-[#191d22] py-10 w-[15%]">
+            <SidebarContent className="pl-1">
+              <SidebarGroup />
+              <SidebarGroupContent className="px-3 mt-5">
+                <SidebarMenu>
+                  <select
+                    defaultValue="Type"
+                    className="bg-gray-800 px-3 py-2 my-3 rounded-sm cursor-pointer hover:bg-gray-700 focus:border-none focus:ring-0"
+                    id="type"
+                  >
+                    <option value="Type">Hospital Type</option>
+                    <option value="Government">Government</option>
+                    <option value="Private">Private</option>
+                    <option value="Educational Institutes">
+                      Medical Institutions
+                    </option>
+                  </select>
+                  <select
+                    defaultValue="Department"
+                    className="bg-gray-800 px-3 py-2 my-3 rounded-sm cursor-pointer hover:bg-gray-700"
+                    id="department"
+                  >
+                    <option value="Department">Department Select</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Oncology">Oncology</option>
+                  </select>
+
+                  <select
+                    defaultValue="Distance"
+                    className="bg-gray-800 px-3 py-2 my-3 rounded-sm cursor-pointer hover:bg-gray-700"
+                    id="distance"
+                  >
+                    <option value="Distance">Distance Select</option>
+                    <option value="5km">Inside 5km Radius</option>
+                    <option value="10km">5-10kms</option>
+                    <option value="20km">11-20kms</option>
+                    <option value="30km">21-30kms</option>
+                    <option value="40km+">40+kms</option>
+                  </select>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarContent>
+          </Sidebar>
+        </SidebarProvider>
+        <div className="flex flex-col min-w-[85%] p-5">
+          <div className="breadcrumbs my-4">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Hospitals</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          <h3 className="text-gray-700 dark:text-gray-50 mt-5 text-xl">
+            146 Hospitals Near You
+          </h3>
+          <div className="grid grid-cols-4 gap-5 my-5">
+            {hospitals.map((m) => (
+              <div
+                className="flex flex-col justify-center items-center border border-gray-900 rounded-lg cursor-pointer bg-[#18191f] hover:bg-[#0e1216] py-3 px-2"
+                key={m.id}
+              >
+                <Image src={m.image} alt={m.hname} width={200} height={120} />
+                <h1>{m.hname}</h1>
+
+                <div className="flex items-center">
+                  <ImLocation />
+                  <div className="flex text-[10px] ml-2 mb-2">
+                    <span className="flex mr-2 text-gray-300">{m.Country}</span>
+                    |<span className="flex mx-2 text-gray-400">{m.State}</span>|
+                    <span className="flex ml-2 text-gray-500">
+                      {m.District}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center text-[12px]">
+                  <FaPhone className="text-sm" />
+                  <div className="relative ml-2">
+                    <span className="relative z-1  h-6 w-20 flex justify-center items-center">
+                      {m.phone}
+                    </span>
+                    <div className="absolute z-2 h-6 w-20 flex justify-center items-center bg-[#1e2939] top-0 left-0 blur-[2px]" />
+                    <div className="absolute z-3 h-6 w-20 flex justify-center items-center top-0 left-0 group">
+                      <BiLock className="text-gray-600 group-hover:text-yellow-300" />
+                      <span className="ml-1 text-gray-600 group-hover:text-yellow-300">
+                        Premium
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full  text-[12px]">
+                  {/* {{m.department.map((dept,x) => (
+                    <span className="bg-gray-700 rounded-xl px-1 py-1">{dept[x]}</span>
+                  ))
+                  }} */}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

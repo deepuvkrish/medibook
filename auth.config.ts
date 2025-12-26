@@ -3,6 +3,7 @@ import type { NextAuthConfig } from "next-auth";
 export const authConfig = {
   pages: {
     signIn: "/login",
+    signOut: "/login",
   },
 
   session: {
@@ -15,7 +16,14 @@ export const authConfig = {
       const pathname = nextUrl.pathname;
       const isLoggedIn = !!auth?.user;
 
-      const publicRoutes = ["/", "/login"];
+      const publicRoutes = [
+        "/",
+        "/login",
+        "/signup",
+        "/hospital",
+        "/doctors",
+        "/labs",
+      ];
       if (publicRoutes.includes(pathname)) return true;
 
       if (!isLoggedIn) return false;

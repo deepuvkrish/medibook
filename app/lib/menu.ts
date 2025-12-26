@@ -1,25 +1,33 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  Home,
+  ClipboardPlus,
+  Settings,
+  FolderClosed,
+  ClipboardClock,
+} from "lucide-react";
+import { CiSearch } from "react-icons/ci";
 
 const dashboardmenuitems = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
     title: "Search",
+    url: "/dashboard",
+    icon: CiSearch,
+  },
+  {
+    title: "Records",
     url: "#",
-    icon: Search,
+    icon: FolderClosed,
+  },
+  {
+    title: "History",
+    url: "#",
+    icon: ClipboardPlus,
+  },
+  {
+    title: "Appointments",
+    url: "#",
+    icon: ClipboardClock,
   },
   {
     title: "Settings",

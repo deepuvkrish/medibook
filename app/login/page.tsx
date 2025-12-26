@@ -4,15 +4,29 @@ import { FaApple } from "react-icons/fa";
 import { BiLogoPlayStore } from "react-icons/bi";
 import { Suspense } from "react";
 import MediLogo from "@/app/components/ui/med-logo";
+import { HealNavLogo } from "../components/ui/healLogo";
+import Link from "next/link";
+import LandingFooter from "../components/layout/LandingFooter";
 
 export default function page() {
   return (
-    <div className="flex flex-col w-full logwall items-center py-3 md:py-0">
-      <div className="absolute md:hidden block">
-        <MediLogo w={100} h={100} />
+    <div className="flex flex-col w-full logwall items-center md:py-0 loginentry overflow-x-hidden">
+      <div className="navBar  hidden md:flex w-full p-0 md:p-2 h-15 items-center justify-between px-0 md:px-3">
+        <HealNavLogo w={80} h={50} />
+        <div className="loginnavForm w-1/2  md:w-[200px] flex justify-center">
+          <Link
+            href="/signup"
+            className="flex px-2 py-1  md:px-5 text-gray-700 dark:text-white text-lg hover:text-[#e6456b]"
+          >
+            Register Here
+          </Link>
+        </div>
+      </div>
+      <div className="absolute md:hidden block top-20">
+        <MediLogo w={150} h={100} />
       </div>
 
-      <main className="logwall flex min-h-screen flex-row p-6  w-full justify-between items-center">
+      <main className="flex h-fit flex-row p-6 relative mt-50 md:mt-0  w-full justify-between items-center mb-10">
         <div className="hidden md:flex ">
           <div className="flex flex-col items-center w-full p-4 text-center sm:p-8 ">
             <Image
@@ -59,12 +73,13 @@ export default function page() {
             </div>
           </div>
         </div>
-        <div className="h-[500px] w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-[#1e2938a1] dark:border-gray-700">
+        <div className="h-[500px] w-full max-w-sm p-4 bg-[#321018a8] rounded-lg shadow sm:p-6 md:p-8 dark:bg-[#1e2938a1] dark:border-gray-700">
           <Suspense fallback={<LoginSkeleton />}>
             <LoginForm />
           </Suspense>
         </div>
       </main>
+      <LandingFooter />
     </div>
   );
 }

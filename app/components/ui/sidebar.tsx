@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react";
+import { HiOutlineMenu } from "react-icons/hi";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -236,7 +236,7 @@ function Sidebar({
           // Adjust the padding for floating and inset variants.
           variant === "floating" || variant === "inset"
             ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
-            : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
+            : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-",
           className
         )}
         {...props}
@@ -266,14 +266,14 @@ function SidebarTrigger({
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon"
-      className={cn("size-7", className)}
+      className={cn("size-7 cursor-pointer", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
       }}
       {...props}
     >
-      <PanelLeftIcon />
+      <HiOutlineMenu />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
@@ -291,7 +291,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
       onClick={toggleSidebar}
       title="Toggle Sidebar"
       className={cn(
-        "hover:after:-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] sm:flex",
+        "hover:after:-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-0.5 sm:flex",
         "in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize",
         "[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize",
         "hover:group-data-[collapsible=offcanvas]: group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full",
@@ -405,7 +405,7 @@ function SidebarGroupLabel({
       data-slot="sidebar-group-label"
       data-sidebar="group-label"
       className={cn(
-        "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "text-sidebar-foreground/70 ring-sidebar-ring flex h-fit shrink-0 items-center px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         className
       )}

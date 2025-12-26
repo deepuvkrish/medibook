@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -46,7 +44,7 @@
 :root {
   --radius: 0.625rem;
   --background: #ffffff;
-  --foreground: #0a0a0a;
+  --foreground: #1e1f28;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -76,11 +74,13 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --logoPink: #5faaff;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
+  --background: #1e1f28;
+  --foreground: #ffffff;
+  --logoPink: #e6456b;
   --card: #171717;
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -114,7 +114,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground h-full;
+    @apply h-full;
   }
 }
 
@@ -123,15 +123,17 @@
 }
 
 /* LANDING PAGE ==========================> */
-.logwall {
-  background-image: linear-gradient(90deg, #000d1a, #e6456b);
+
+.logScreen {
+  background-image: linear-gradient(90deg, #ffffff, #ff426e);
 }
+
 .sidebar_custom {
   background-image: linear-gradient(90deg, #000d1a, #e6456b);
 }
 .LandingCard {
   --landingWhite: hsl(0, 0%, 100%);
-  --landingBlack: hsl(240, 15%, 9%);
+  --landingBlack: #14141a;
   --landingParagraph: hsl(0, 0%, 83%);
   --landingLine: #27272f;
   --LandingPrimary: #8731f6;
@@ -218,29 +220,27 @@
 
 /* Landing page Cards ===============================================================> */
 .notification {
-  display: flex;
-  flex-direction: column;
-  isolation: isolate;
-  position: relative;
-
-  height: 6rem;
-  background: #0c101e75;
-  border-radius: 1rem;
-  overflow: hidden;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 16px;
   --gradient: linear-gradient(to bottom, #2eadff, #3d83ff, #7e61ff);
   --color: #32a6ff;
+  isolation: isolate;
   cursor: pointer;
+  /* background: #fff8fa; */
+  border-radius: 1rem;
+  flex-direction: column;
+  height: 6rem;
+  font-family: Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif;
+  font-size: 16px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
 }
 
 .notification:before {
-  position: absolute;
   content: "";
-  inset: 0.0625rem;
-  border-radius: 0.9375rem;
-  background: #0c101e5e;
   z-index: 2;
+  border-radius: 0.9375rem;
+  position: absolute;
+  inset: 0.0625rem;
 }
 
 .notification:after {
@@ -249,7 +249,6 @@
   width: 0.25rem;
   inset: 0.65rem auto 0.65rem 0.5rem;
   border-radius: 0.125rem;
-  background: #e6456b;
   transition: transform 300ms ease;
   z-index: 4;
 }
@@ -257,12 +256,9 @@
 .notification:hover:after {
   transform: translateX(0.15rem);
 }
-.notification:hover .menuCardIcn {
-  color: #2eadff;
-}
 
 .notititle {
-  color: #ffffff;
+  color: #2f2f2f;
   padding: 0.65rem 0.25rem 0.4rem 1.25rem;
   font-weight: 500;
   transition: transform 300ms ease;
@@ -274,7 +270,6 @@
 }
 
 .notibody {
-  color: #8c8c8c;
   padding: 0 1.25rem;
   transition: transform 300ms ease;
   z-index: 5;
@@ -286,17 +281,14 @@
 
 .notiglow,
 .notiborderglow {
-  position: absolute;
+  opacity: 0;
+  background: radial-gradient(circle closest-side, #ff0078, #ffffff7a);
   width: 20rem;
   height: 20rem;
+  transition: opacity 0.3s;
+  position: absolute;
   transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle closest-side at center,
-    white,
-    transparent
-  );
-  opacity: 0;
-  transition: opacity 300ms ease;
+  border-radius: 50%;
 }
 
 .notiglow {
@@ -338,6 +330,36 @@
   color: #4ca0f5;
 }
 
+.signupentry {
+  animation: signupentryanim 700ms linear;
+  transform: translateX(0%);
+}
+
+@keyframes signupentryanim {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+.loginentry {
+  animation: loginentryanim 700ms linear;
+  transform: translateX(0%);
+}
+
+@keyframes loginentryanim {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
 /* CHECKBOX ==========================================================================> */
 
 .checkbox-container {
@@ -444,4 +466,19 @@
 
 .ios-checkbox input:checked + .checkbox-wrapper {
   animation: bounce 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sidebar =================================================================> */
+
+.appSidebar {
+  background: #232d3940;
+}
+
+/* Inputs  =====================================================================> */
+
+option {
+  background: #000d1a;
+  color: white;
+  border-radius: 10px;
+  padding-inline: 5px;
 }

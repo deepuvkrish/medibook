@@ -5,10 +5,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
+      <SidebarTrigger className="absolute md:relative" />
+      <main className="px-1 md:px-3 py-5">{children}</main>
     </SidebarProvider>
   );
 }

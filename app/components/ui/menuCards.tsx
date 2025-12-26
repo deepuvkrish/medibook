@@ -3,24 +3,32 @@ import { ComponentType } from "react";
 import Link from "next/link";
 export default function MenuCards({
   title,
+  mobtitle,
   subtitle,
   link,
   icon: Icon,
 }: {
   title: string;
+  mobtitle: string;
   subtitle: string;
   link: string;
   icon: ComponentType<{ className?: string }>;
 }) {
   return (
-    <Link className="notification relative md:w-[18rem] w-45" href={link}>
+    <Link
+      className="notification md:bg-[#ffffffb5] relative md:w-[18rem] w-20 justify-center items-center md:justify-baseline md:items-baseline after:bg-none md:dark:after:bg-[#e6456b] md:after:bg-[#5faaff]  before:bg-[#afd4f86d] dark:before:bg-[#ffd2e354] group"
+      href={link}
+    >
       <div className="notiglow" />
       <div className="notiborderglow" />
-      <div className="notititle text-[15px] md:text-[20px]">{title}</div>
-      <div className="notibody text-[13px] md:text-[15px] px-0 py-2 md:px-0 md:py-5">
+      <Icon className="text-4xl md:text-5xl relative md:absolute md:top-2 md:right-2 text-gray-400 group-hover:text-[#5faaff]  dark:group-hover:text-[#e6456b]" />
+      <div className="hidden md:block notititle text-[20px]">{title}</div>
+      <div className="block md:hidden text-[15px] text-[#3f3f3f] dark:text-white font-bold mt-2 z-5">
+        {mobtitle}
+      </div>
+      <div className="hidden md:block notibody text-[13px] md:text-[15px] text-[#262626] dark:text-[#424242] px-0 py-2 md:px-0 md:py-5">
         {subtitle}
       </div>
-      <Icon className="text-3xl md:text-5xl absolute top-2 right-2 menuCardIcn text-gray-400" />
     </Link>
   );
 }

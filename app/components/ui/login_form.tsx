@@ -18,6 +18,7 @@ import { useSearchParams } from "next/navigation";
 
 // Components ===============================================>
 import { Button } from "@/app/components/ui/button";
+import Link from "next/link";
 
 // Main Function ===============================================>
 export default function LoginForm() {
@@ -30,14 +31,12 @@ export default function LoginForm() {
 
   return (
     <form action={formAction} className="space-y-6">
-      <h5 className="text-xl text-center font-medium text-gray-900 dark:text-white">
-        Sign in
-      </h5>
+      <h5 className="text-xl text-center font-medium text-white">Sign in</h5>
 
       <div>
         <label
           htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-white"
         >
           Email
         </label>
@@ -57,7 +56,7 @@ export default function LoginForm() {
       <div>
         <label
           htmlFor="password"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-white"
         >
           Your password
         </label>
@@ -92,7 +91,7 @@ export default function LoginForm() {
       </div>
       <button
         type="submit"
-        className="w-full text-white bg-[#e6456b] hover:bg-[#a72946] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center cursor-pointer"
+        className="w-full text-white bg-[#e6456b] hover:bg-[#f07390] focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center cursor-pointer"
         aria-disabled={isPending}
       >
         Login <ArrowRightIcon className="ml-2 h-5 w-5 text-gray-50" />
@@ -107,11 +106,11 @@ export default function LoginForm() {
         )}
       </div>
 
-      <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+      <div className="text-sm font-medium text-gray-100  border-t border-gray-700 pt-5">
         Not registered?{" "}
-        <a href="#" className="text-[#ff7aac] hover:underline ">
+        <Link href="/signup" className="text-[#ff7aac] hover:underline ">
           Create account
-        </a>
+        </Link>
       </div>
     </form>
   );

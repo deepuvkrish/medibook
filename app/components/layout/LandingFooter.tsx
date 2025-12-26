@@ -5,7 +5,7 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 
 export default function LandingFooter() {
   return (
-    <footer className="w-full">
+    <footer className="w-full mb-1 md:mb-0">
       <div className="mx-auto w-full max-w-7xl">
         <div className="hidden md:grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
           <div>
@@ -118,9 +118,9 @@ export default function LandingFooter() {
           <Link href="#">Privacy policy</Link>
           <Link href="#">FAQs</Link>
         </div>
-        <div className="px-4 py-6 flex flex-col md:flex-row items-center justify-between border-t border-gray-500">
-          <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center sm:w-full">
-            © 2024 <a href="#">Ayur™</a> All Rights Reserved.
+        <div className="px-4 py-6 flex flex-col md:flex-row items-center justify-between border-t border-gray-700">
+          <span className="text-[12px] text-gray-500 dark:text-gray-500 sm:text-center sm:w-full">
+            © 2026 <a href="#">Heal™</a> All Rights Reserved.
           </span>
           <div className="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
             <a

@@ -22,13 +22,13 @@ import HealLogo from "./heal-logo";
 
 export function AppSidebar() {
   return (
-    <Sidebar className="bg-[#f3e2ea] dark:bg-[##19171f]">
+    <Sidebar className="bg-[#191d22]">
       <SidebarContent className="pl-1">
         <SidebarGroup />
-        <SidebarGroupLabel className="text-xl">
+        <SidebarGroupLabel className="text-xl border-b border-pink-600 pb-5">
           <HealLogo w={100} h={50} />
         </SidebarGroupLabel>
-        <SidebarGroupContent className="pl-3">
+        <SidebarGroupContent className="pl-3 mt-5">
           <SidebarMenu>
             {dashboardmenuitems.map((item) => (
               <SidebarMenuItem key={item.title}>
