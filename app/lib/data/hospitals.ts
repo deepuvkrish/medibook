@@ -15,6 +15,12 @@ export async function getHospitalsForUser(
   filters?: HospitalQuery
 ) {
   const supabase = await createClient();
+  // 🔐 Subscription logic
+  let hospitalLimit = 10;
+  let canViewContact = false;
+  const limit = hospitalLimit ?? 10;
+
+  const fetchLimit = hospitalLimit + 6; // show blurred preview
 
   let query = supabase
     .from("medi_hospitals")
@@ -36,7 +42,8 @@ export async function getHospitalsForUser(
       created_at
     `
     )
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: true })
+    .limit(fetchLimit);
 
   // 🔎 Search
   if (filters?.q) {
@@ -56,7 +63,7 @@ export async function getHospitalsForUser(
   }
 
   if (filters?.department) {
-    query = query.contains("departments", [filters.department]);
+    query = query.filter("departments", "cs", `{${filters.department}}`);
   }
 
   const { data: hospitals, error } = await query;
@@ -67,14 +74,10 @@ export async function getHospitalsForUser(
     return { visible: [], blurred: [], canViewContact: false };
   }
 
-  // 🔐 Subscription logic
-  let hospitalLimit = 10;
-  let canViewContact = false;
-
   if (userId) {
     const subscription = await getUserSubscription(userId);
     if (subscription) {
-      hospitalLimit = subscription.hospitalLimit ?? hospitals.length;
+      hospitalLimit = subscription.hospitalLimit ?? 1000; // premium = more
       canViewContact = subscription.allowContactAccess;
     }
   }

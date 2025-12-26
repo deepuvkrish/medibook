@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { getHospitalsForUser } from "@/app/lib/data/hospitals";
 import { HospitalCard } from "@/app/hospital/hospital-card";
 import { HospitalFilters } from "@/app/hospital/hospital-filters";
+import { HospitalSkeleton } from "@/app/hospital/hospital-skeleton";
 import { Suspense } from "react";
 
 type SearchParams = {
@@ -30,11 +31,19 @@ export default async function HospitalsPage({
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-semibold">Hospitals</h1>
 
-      <Suspense fallback={null}>
+      <Suspense
+        fallback={
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <HospitalSkeleton key={i} />
+            ))}
+          </div>
+        }
+      >
         <HospitalFilters />
       </Suspense>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {visible.map((h) => (
           <HospitalCard
             key={h.id}

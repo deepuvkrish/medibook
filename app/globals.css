@@ -482,3 +482,68 @@ option {
   border-radius: 10px;
   padding-inline: 5px;
 }
+
+/* Buttons  ==================================================================> */
+.Readmorecontainer {
+  display: flex;
+  position: relative;
+  width: 150px;
+}
+
+.button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5em 1.5em;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.arrow {
+  fill: #94a1b2;
+  position: absolute;
+  pointer-events: none;
+  width: 24px;
+  right: 0;
+  top: 25%;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.button:hover {
+  letter-spacing: 1px;
+}
+
+.button:hover ~ .second {
+  opacity: 0.66;
+  right: 0px;
+  transition-delay: 50ms;
+}
+
+.button:hover ~ .third {
+  opacity: 0.33;
+  right: -20px;
+  transition-delay: 100ms;
+}
+.button:hover ~ .four {
+  opacity: 0.33;
+  right: -40px;
+  transition-delay: 150ms;
+}
+
+.second,
+.third,
+.four {
+  opacity: 0;
+}
+
+/* Hide scrollbar for pills */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
