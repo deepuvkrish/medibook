@@ -47,15 +47,15 @@
   --foreground: #1e1f28;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
+  --accent: #f5f5f5;
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
@@ -224,7 +224,6 @@
   --color: #32a6ff;
   isolation: isolate;
   cursor: pointer;
-  /* background: #fff8fa; */
   border-radius: 1rem;
   flex-direction: column;
   height: 6rem;
@@ -240,7 +239,6 @@
   z-index: 2;
   border-radius: 0.9375rem;
   position: absolute;
-  inset: 0.0625rem;
 }
 
 .notification:after {
@@ -258,7 +256,6 @@
 }
 
 .notititle {
-  color: #2f2f2f;
   padding: 0.65rem 0.25rem 0.4rem 1.25rem;
   font-weight: 500;
   transition: transform 300ms ease;
@@ -277,18 +274,6 @@
 
 .notification:hover .notibody {
   transform: translateX(0.25rem);
-}
-
-.notiglow,
-.notiborderglow {
-  opacity: 0;
-  background: radial-gradient(circle closest-side, #ff0078, #ffffff7a);
-  width: 20rem;
-  height: 20rem;
-  transition: opacity 0.3s;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
 }
 
 .notiglow {
@@ -476,13 +461,9 @@
 
 /* Inputs  =====================================================================> */
 
-option {
-  background: #000d1a;
-  color: white;
-  border-radius: 10px;
-  padding-inline: 5px;
+input::placeholder {
+  color: gray;
 }
-
 /* Buttons  ==================================================================> */
 .Readmorecontainer {
   display: flex;
@@ -537,6 +518,46 @@ option {
 .third,
 .four {
   opacity: 0;
+}
+
+/* From Uiverse.io by vinodjangid07 */
+.PremiumBtn {
+  width: 200px;
+  height: 40px;
+  border: none;
+  border-radius: 40px;
+  background: linear-gradient(
+    to right,
+    #bf953f,
+    #fcf6ba,
+    #b38728,
+    #fbf5b7,
+    #aa771c
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.8em;
+  color: rgb(121, 103, 3);
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition-duration: 3s;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.144);
+  background-size: 200% 200%;
+}
+
+.logoIcon path {
+  fill: rgb(121, 103, 3);
+}
+
+.PremiumBtn:hover {
+  transform: scale(0.95);
+  transition-duration: 3s;
+  animation: gradient 5s ease infinite;
+  background-position: right;
 }
 
 /* Hide scrollbar for pills */

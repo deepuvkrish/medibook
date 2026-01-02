@@ -11,15 +11,20 @@ import Link from "next/link";
 import { MdLocationOn } from "react-icons/md";
 import { IoMedicalOutline } from "react-icons/io5";
 import { useState } from "react";
+import { CiLock } from "react-icons/ci";
+import { Mail, Phone } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function HospitalDetailsModal({
   hospital,
   open,
   onClose,
+  canViewContact,
 }: {
   hospital: any;
   open: boolean;
   onClose: () => void;
+  canViewContact: boolean;
 }) {
   if (!hospital) return null;
   const departments: string[] = Array.isArray(hospital.departments)
@@ -115,13 +120,43 @@ export function HospitalDetailsModal({
               </div>
             )}
 
+            <div className="px-4 py-2 space-y-3 ">
+              {/* Contact */}
+              <div className="space-y-1 text-sm relative cursor-not-allowed">
+                <div className="absolute top-0 left-0 w-full  h-full flex justify-center items-center  bg-[#ee588524] rounded-xl">
+                  <span className="flex">
+                    <CiLock className="mr-2" />
+                    Login to View Contact Details
+                  </span>
+                </div>
+                <p
+                  className={cn(
+                    "flex items-center gap-2",
+                    !canViewContact && "blur-sm select-none"
+                  )}
+                >
+                  <Phone className="h-4 w-4" />
+                  {hospital.contact_no ?? "Hidden"}
+                </p>
+                <p
+                  className={cn(
+                    "flex items-center gap-2",
+                    !canViewContact && "blur-sm select-none"
+                  )}
+                >
+                  <Mail className="h-4 w-4" />
+                  {hospital.contact_mail ?? "Hidden"}
+                </p>
+              </div>
+            </div>
+
             <Dialog open={opens} onOpenChange={setOpens}>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
                   <DialogTitle>Departments</DialogTitle>
                 </DialogHeader>
 
-                <div className="flex flex-wrap gap-2 mt-4">
+                <div className="flex flex-wrap gap-2 mt-4 ">
                   {departments.map((dept: string) => (
                     <span
                       key={dept}

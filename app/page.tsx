@@ -6,6 +6,7 @@ import { SearchIcon } from "lucide-react";
 import { GiHospitalCross, GiMedicines } from "react-icons/gi";
 import { FaUserDoctor, FaFilePrescription } from "react-icons/fa6";
 import { ImLab } from "react-icons/im";
+import { MdBloodtype } from "react-icons/md";
 
 // Components ======================================================>
 import { HealNavLogo } from "./components/ui/healLogo";
@@ -89,6 +90,13 @@ export default function Home() {
             subtitle="Search Labs."
             link="/labs"
             icon={ImLab}
+          />
+          <MenuCards
+            title="Blood Bank"
+            mobtitle="Blood Bank"
+            subtitle="Search Nearby Blood Banks."
+            link="/labs"
+            icon={MdBloodtype}
           />
           <MenuCards
             title="Records Safe"

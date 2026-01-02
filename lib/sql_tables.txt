@@ -10,3 +10,60 @@ CREATE TABLE user_subscriptions (
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
+
+
+
+<================================================================================================>
+CREATE TABLE subscription_plans (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  name text NOT NULL,                     -- Free, Premium, Pro
+  code text UNIQUE NOT NULL,              -- free | premium | pro
+  description text,
+  price_inr integer NOT NULL,             -- store in smallest unit (paise)
+  interval text NOT NULL,                 -- monthly | yearly
+  hospital_limit integer,                 -- NULL = unlimited
+  allow_contact_access boolean DEFAULT false,
+  stripe_price_id text,
+  razorpay_plan_id text,
+  is_active boolean DEFAULT true,
+  created_at timestamptz DEFAULT now()
+);
+
+INSERT INTO medi_subscription_plans
+(name, code, price_inr, interval, hospital_limit, allow_contact_access)
+VALUES
+('Free', 'free', 0, 'monthly', 10, false),
+('Premium', 'premium', 99, 'monthly', NULL, true),
+('Pro', 'pro', 149, 'monthly', NULL, true);
+
+<================================================================================================>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <======== Check Active Subscriptors ================>
+SELECT 1
+FROM medi_user_subscriptions
+WHERE user_id = auth.uid()
+  AND status = 'active'
+  AND ends_at > now()
+LIMIT 1;
