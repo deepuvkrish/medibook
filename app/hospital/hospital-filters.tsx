@@ -1,7 +1,8 @@
+//hospital/hospital-filters.tsx
+
 "use client";
 
-// Libraries ===================================================>
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/app/components/ui/input";
 import {
   Select,
@@ -13,13 +14,47 @@ import {
 import { Button } from "@/app/components/ui/button";
 import { Badge } from "@/app/components/ui/badge";
 
-type FilterValues = {
+/* ---------------------------------------------
+   Types
+--------------------------------------------- */
+export type FilterValues = {
   q: string;
   state: string;
   department: string;
   distance: string;
+  lat?: string;
+  lng?: string;
 };
 
+/* ---------------------------------------------
+   GPS helper
+--------------------------------------------- */
+function getUserLocation(): Promise<{ lat: number; lng: number }> {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("Geolocation not supported"));
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) =>
+        resolve({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        }),
+      (err) => reject(err),
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0,
+      }
+    );
+  });
+}
+
+/* ---------------------------------------------
+   Component
+--------------------------------------------- */
 export function HospitalFilters({
   states,
   departments,
@@ -34,74 +69,124 @@ export function HospitalFilters({
   onClear: () => void;
 }) {
   const [search, setSearch] = useState(values.q);
+  const [locating, setLocating] = useState(false);
+  const gpsInFlight = useRef(false); // 🔒 HARD LOCK
 
-  // 🔁 keep input in sync with URL (back/forward)
+  /* 🔁 sync search */
   useEffect(() => {
     setSearch(values.q);
   }, [values.q]);
 
-  // ⏱ debounce search
+  /* ⏱ debounce search */
   useEffect(() => {
     const t = setTimeout(() => {
       onUpdate("q", search || undefined);
     }, 300);
     return () => clearTimeout(t);
-  }, [search]);
+  }, [search, onUpdate]);
 
   const hasFilters =
     values.q || values.state || values.department || values.distance;
 
+  /* ---------------------------------------------
+     Distance handler (FIXED)
+  --------------------------------------------- */
+  async function handleDistanceChange(value: string) {
+    if (!value) {
+      onUpdate("distance", undefined);
+      onUpdate("lat", undefined);
+      onUpdate("lng", undefined);
+      return;
+    }
+
+    // 🔥 prevent double fire
+    if (locating || gpsInFlight.current) return;
+
+    // Already have location
+    if (values.lat && values.lng) {
+      onUpdate("distance", value);
+      return;
+    }
+
+    // Session cache
+    const cached = sessionStorage.getItem("userLocation");
+    if (cached) {
+      const loc = JSON.parse(cached);
+      onUpdate("lat", String(loc.lat));
+      onUpdate("lng", String(loc.lng));
+      onUpdate("distance", value);
+      return;
+    }
+
+    try {
+      gpsInFlight.current = true;
+      setLocating(true);
+
+      const loc = await getUserLocation();
+
+      sessionStorage.setItem("userLocation", JSON.stringify(loc));
+
+      onUpdate("lat", String(loc.lat));
+      onUpdate("lng", String(loc.lng));
+      onUpdate("distance", value);
+    } catch (err: any) {
+      // 🚫 Ignore duplicate / aborted calls
+      if (err?.code === 1) {
+        alert("Location permission is required to filter by distance");
+      }
+    } finally {
+      gpsInFlight.current = false;
+      setLocating(false);
+    }
+  }
+
   return (
-    <div className="flex flex-wrap gap-3 items-center filter-bar text-gray-700 dark:text-gray-500">
-      {/* Search */}
+    <div className="flex flex-wrap gap-3 items-center">
       <Input
         placeholder="Search hospitals..."
         value={search}
-        onChange={(e) => onUpdate("q", e.target.value)}
-        className="w-[320px] text-gray-700"
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-[320px]"
       />
 
-      {/* State */}
-      <Select
-        value={values.state}
-        onValueChange={(value) => onUpdate("state", value)}
-      >
+      <Select value={values.state} onValueChange={(v) => onUpdate("state", v)}>
         <SelectTrigger className="w-40">
           <SelectValue placeholder="State" />
         </SelectTrigger>
         <SelectContent>
-          {states.map((state) => (
-            <SelectItem key={state} value={state}>
-              {state}
+          {states.map((s) => (
+            <SelectItem key={s} value={s}>
+              {s}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
 
-      {/* Department */}
       <Select
         value={values.department}
-        onValueChange={(value) => onUpdate("department", value)}
+        onValueChange={(v) => onUpdate("department", v)}
       >
         <SelectTrigger className="w-[200px]">
           <SelectValue placeholder="Department" />
         </SelectTrigger>
         <SelectContent>
-          {departments.map((dept) => (
-            <SelectItem key={dept} value={dept}>
-              {dept}
+          {departments.map((d) => (
+            <SelectItem key={d} value={d}>
+              {d}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
 
-      {/* Distance */}
       <Select
         value={values.distance}
-        onValueChange={(value) => onUpdate("distance", value)}
+        onValueChange={handleDistanceChange}
+        disabled={locating}
       >
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Distance" />
+          <SelectValue
+            placeholder={locating ? "Detecting location..." : "Distance"}
+          />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="5">Within 5 km</SelectItem>
@@ -112,29 +197,17 @@ export function HospitalFilters({
         </SelectContent>
       </Select>
 
-      {/* Clear */}
       {hasFilters && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onClear}
-          className="cursor-pointer bg-[#282937] text-white"
-        >
+        <Button variant="ghost" size="sm" onClick={onClear}>
           Clear filters
         </Button>
       )}
 
-      {/* Active filter badges */}
       <div className="flex gap-2 ml-auto">
-        {values.state && (
-          <Badge className="bg-blue-500 text-white px-3">{values.state}</Badge>
-        )}
-        {values.department && (
-          <Badge className="bg-pink-600 text-white">{values.department}</Badge>
-        )}
-        {values.distance && (
-          <Badge className="bg-pink-400 text-white">{values.distance} km</Badge>
-        )}
+        {values.state && <Badge>{values.state}</Badge>}
+        {values.department && <Badge>{values.department}</Badge>}
+        {values.distance && <Badge>{values.distance} km</Badge>}
+        {values.lat && values.lng && <Badge>📍 Near you</Badge>}
       </div>
     </div>
   );

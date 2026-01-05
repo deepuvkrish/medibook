@@ -1,3 +1,5 @@
+//hospital/hospital-filters-client.tsx
+
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,38 +17,14 @@ export function HospitalFiltersClient({
 
   function updateParam(key: string, value?: string) {
     const sp = new URLSearchParams(params.toString());
-
     if (!value) sp.delete(key);
     else sp.set(key, value);
 
-    router.push(`?${sp.toString()}`);
-  }
-
-  async function updateDistance(value?: string) {
-    if (!value) {
-      updateParam("distance");
-      updateParam("lat");
-      updateParam("lng");
-      return;
-    }
-
-    if (!navigator.geolocation) {
-      alert("GPS not supported");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        updateParam("distance", value);
-        updateParam("lat", pos.coords.latitude.toString());
-        updateParam("lng", pos.coords.longitude.toString());
-      },
-      () => alert("Location permission denied")
-    );
+    router.push(`?${sp.toString()}`, { scroll: false });
   }
 
   function clearFilters() {
-    router.push("/hospital");
+    router.push("/hospital", { scroll: false });
   }
 
   return (
@@ -58,11 +36,10 @@ export function HospitalFiltersClient({
         state: params.get("state") ?? "",
         department: params.get("department") ?? "",
         distance: params.get("distance") ?? "",
+        lat: params.get("lat") ?? undefined,
+        lng: params.get("lng") ?? undefined,
       }}
-      onUpdate={(key, value) => {
-        if (key === "distance") updateDistance(value);
-        else updateParam(key, value);
-      }}
+      onUpdate={updateParam}
       onClear={clearFilters}
     />
   );

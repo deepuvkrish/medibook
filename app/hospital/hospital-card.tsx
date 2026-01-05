@@ -7,13 +7,14 @@ import Image from "next/image";
 import { FiExternalLink } from "react-icons/fi";
 import { SiGooglemaps } from "react-icons/si";
 import { FaCrown } from "react-icons/fa";
+import { Hospital } from "@/app/lib/types/hospital";
 
 export function HospitalCard({
   hospital,
   blurred,
   canViewContact,
 }: {
-  hospital: any;
+  hospital: Hospital;
   blurred?: boolean;
   canViewContact: boolean;
 }) {

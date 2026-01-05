@@ -14,6 +14,7 @@ import { useState } from "react";
 import { CiLock } from "react-icons/ci";
 import { Mail, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Hospital } from "@/app/lib/types/hospital";
 
 export function HospitalDetailsModal({
   hospital,
@@ -21,17 +22,13 @@ export function HospitalDetailsModal({
   onClose,
   canViewContact,
 }: {
-  hospital: any;
+  hospital: Hospital;
   open: boolean;
   onClose: () => void;
   canViewContact: boolean;
 }) {
   if (!hospital) return null;
-  const departments: string[] = Array.isArray(hospital.departments)
-    ? hospital.departments
-    : typeof hospital.departments === "string"
-    ? hospital.departments.split(",").map((d: string) => d.trim())
-    : [];
+  const departments = hospital.departments ?? [];
 
   const services: string[] = Array.isArray(hospital.services)
     ? hospital.services
