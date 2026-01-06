@@ -1,5 +1,4 @@
 //hospital/hospital-filters.tsx
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,16 +13,11 @@ import {
 import { Button } from "@/app/components/ui/button";
 import { Badge } from "@/app/components/ui/badge";
 
-/* ---------------------------------------------
-   Types
---------------------------------------------- */
 export type FilterValues = {
   q: string;
   state: string;
   department: string;
   distance: string;
-  lat?: string;
-  lng?: string;
 };
 
 export function HospitalFilters({
@@ -41,25 +35,20 @@ export function HospitalFilters({
 }) {
   const [search, setSearch] = useState(values.q);
 
-  /* 🔁 Sync search input */
-  useEffect(() => {
-    setSearch(values.q);
-  }, [values.q]);
+  useEffect(() => setSearch(values.q), [values.q]);
 
-  /* ⏱ Debounced search */
   useEffect(() => {
     const t = setTimeout(() => {
       onUpdate("q", search || undefined);
     }, 300);
     return () => clearTimeout(t);
-  }, [search, onUpdate]);
+  }, [search]);
 
   const hasFilters =
     values.q || values.state || values.department || values.distance;
 
   return (
     <div className="flex flex-wrap gap-3 items-center">
-      {/* 🔍 Search */}
       <Input
         placeholder="Search hospitals..."
         value={search}
@@ -67,7 +56,6 @@ export function HospitalFilters({
         className="w-[320px]"
       />
 
-      {/* 🏙 State */}
       <Select value={values.state} onValueChange={(v) => onUpdate("state", v)}>
         <SelectTrigger className="w-40">
           <SelectValue placeholder="State" />
@@ -81,7 +69,6 @@ export function HospitalFilters({
         </SelectContent>
       </Select>
 
-      {/* 🏥 Department */}
       <Select
         value={values.department}
         onValueChange={(v) => onUpdate("department", v)}
@@ -98,8 +85,6 @@ export function HospitalFilters({
         </SelectContent>
       </Select>
 
-      {/* 📍 Distance */}
-
       <Select
         value={values.distance}
         onValueChange={(v) => onUpdate("distance", v)}
@@ -109,30 +94,23 @@ export function HospitalFilters({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="5">Within 5 km</SelectItem>
-          <SelectItem value="10">5 – 10 km</SelectItem>
-          <SelectItem value="25">11 – 25 km</SelectItem>
-          <SelectItem value="40">25 – 40 km</SelectItem>
-          <SelectItem value="40+">Above 40 km</SelectItem>
+          <SelectItem value="10">Within 10 km</SelectItem>
+          <SelectItem value="25">Within 25 km</SelectItem>
+          <SelectItem value="40">Within 40 km</SelectItem>
         </SelectContent>
       </Select>
 
-      {/* 🧹 Clear */}
       {hasFilters && (
         <Button variant="ghost" size="sm" onClick={onClear}>
           Clear filters
         </Button>
       )}
 
-      {/* 🏷 Active filter badges */}
-      <div className="flex gap-2 ml-auto">
-        {values.state && <Badge>{values.state}</Badge>}
-        {values.department && <Badge>{values.department}</Badge>}
-        {values.distance && (
-          <Badge className="bg-green-600 text-white">
-            📍 Within {values.distance} km
-          </Badge>
-        )}
-      </div>
+      {values.distance && (
+        <Badge className="ml-auto bg-green-600 text-white">
+          📍 Within {values.distance} km
+        </Badge>
+      )}
     </div>
   );
 }
