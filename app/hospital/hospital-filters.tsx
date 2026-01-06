@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/app/components/ui/input";
 import {
   Select,
@@ -26,35 +26,6 @@ export type FilterValues = {
   lng?: string;
 };
 
-/* ---------------------------------------------
-   GPS helper
---------------------------------------------- */
-function getUserLocation(): Promise<{ lat: number; lng: number }> {
-  return new Promise((resolve, reject) => {
-    if (!navigator.geolocation) {
-      reject(new Error("Geolocation not supported"));
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) =>
-        resolve({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-        }),
-      (err) => reject(err),
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 0,
-      }
-    );
-  });
-}
-
-/* ---------------------------------------------
-   Component
---------------------------------------------- */
 export function HospitalFilters({
   states,
   departments,
@@ -69,15 +40,13 @@ export function HospitalFilters({
   onClear: () => void;
 }) {
   const [search, setSearch] = useState(values.q);
-  const [locating, setLocating] = useState(false);
-  const gpsInFlight = useRef(false); // 🔒 HARD LOCK
 
-  /* 🔁 sync search */
+  /* 🔁 Sync search input */
   useEffect(() => {
     setSearch(values.q);
   }, [values.q]);
 
-  /* ⏱ debounce search */
+  /* ⏱ Debounced search */
   useEffect(() => {
     const t = setTimeout(() => {
       onUpdate("q", search || undefined);
@@ -88,60 +57,9 @@ export function HospitalFilters({
   const hasFilters =
     values.q || values.state || values.department || values.distance;
 
-  /* ---------------------------------------------
-     Distance handler (FIXED)
-  --------------------------------------------- */
-  async function handleDistanceChange(value: string) {
-    if (!value) {
-      onUpdate("distance", undefined);
-      onUpdate("lat", undefined);
-      onUpdate("lng", undefined);
-      return;
-    }
-
-    // 🔥 prevent double fire
-    if (locating || gpsInFlight.current) return;
-
-    // Already have location
-    if (values.lat && values.lng) {
-      onUpdate("distance", value);
-      return;
-    }
-
-    // Session cache
-    const cached = sessionStorage.getItem("userLocation");
-    if (cached) {
-      const loc = JSON.parse(cached);
-      onUpdate("lat", String(loc.lat));
-      onUpdate("lng", String(loc.lng));
-      onUpdate("distance", value);
-      return;
-    }
-
-    try {
-      gpsInFlight.current = true;
-      setLocating(true);
-
-      const loc = await getUserLocation();
-
-      sessionStorage.setItem("userLocation", JSON.stringify(loc));
-
-      onUpdate("lat", String(loc.lat));
-      onUpdate("lng", String(loc.lng));
-      onUpdate("distance", value);
-    } catch (err: any) {
-      // 🚫 Ignore duplicate / aborted calls
-      if (err?.code === 1) {
-        alert("Location permission is required to filter by distance");
-      }
-    } finally {
-      gpsInFlight.current = false;
-      setLocating(false);
-    }
-  }
-
   return (
     <div className="flex flex-wrap gap-3 items-center">
+      {/* 🔍 Search */}
       <Input
         placeholder="Search hospitals..."
         value={search}
@@ -149,6 +67,7 @@ export function HospitalFilters({
         className="w-[320px]"
       />
 
+      {/* 🏙 State */}
       <Select value={values.state} onValueChange={(v) => onUpdate("state", v)}>
         <SelectTrigger className="w-40">
           <SelectValue placeholder="State" />
@@ -162,6 +81,7 @@ export function HospitalFilters({
         </SelectContent>
       </Select>
 
+      {/* 🏥 Department */}
       <Select
         value={values.department}
         onValueChange={(v) => onUpdate("department", v)}
@@ -178,15 +98,14 @@ export function HospitalFilters({
         </SelectContent>
       </Select>
 
+      {/* 📍 Distance */}
+
       <Select
         value={values.distance}
-        onValueChange={handleDistanceChange}
-        disabled={locating}
+        onValueChange={(v) => onUpdate("distance", v)}
       >
         <SelectTrigger className="w-[180px]">
-          <SelectValue
-            placeholder={locating ? "Detecting location..." : "Distance"}
-          />
+          <SelectValue placeholder="Distance" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="5">Within 5 km</SelectItem>
@@ -197,17 +116,22 @@ export function HospitalFilters({
         </SelectContent>
       </Select>
 
+      {/* 🧹 Clear */}
       {hasFilters && (
         <Button variant="ghost" size="sm" onClick={onClear}>
           Clear filters
         </Button>
       )}
 
+      {/* 🏷 Active filter badges */}
       <div className="flex gap-2 ml-auto">
         {values.state && <Badge>{values.state}</Badge>}
         {values.department && <Badge>{values.department}</Badge>}
-        {values.distance && <Badge>{values.distance} km</Badge>}
-        {values.lat && values.lng && <Badge>📍 Near you</Badge>}
+        {values.distance && (
+          <Badge className="bg-green-600 text-white">
+            📍 Within {values.distance} km
+          </Badge>
+        )}
       </div>
     </div>
   );

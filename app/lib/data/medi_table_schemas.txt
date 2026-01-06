@@ -1,0 +1,49 @@
+create table public.medi_hospitals (
+  id uuid not null default gen_random_uuid (),
+  name text not null,
+  address text null,
+  state text null,
+  country text null,
+  departments text[] null,
+  services text null,
+  workingdays text null,
+  created_at timestamp with time zone null default now(),
+  image_url text null,
+  contact_no text null,
+  district text null,
+  contact_mail text null,
+  weblink text null,
+  googlemaplink text null,
+  locality text null,
+  latitude double precision null,
+  longitude double precision null,
+  constraint medi_hospitals_pkey primary key (id)
+) TABLESPACE pg_default;
+
+create index IF not exists idx_hospitals_name on public.medi_hospitals using gin (name gin_trgm_ops) TABLESPACE pg_default;
+
+create index IF not exists idx_hospitals_location on public.medi_hospitals using btree (state, district) TABLESPACE pg_default;
+
+create index IF not exists idx_hospitals_search on public.medi_hospitals using gin (
+  (
+    (
+      (
+        (
+          (((name || ' '::text) || locality) || ' '::text) || district
+        ) || ' '::text
+      ) || state
+    )
+  ) gin_trgm_ops
+) TABLESPACE pg_default;
+
+create index IF not exists hospitals_name_trgm on public.medi_hospitals using gin (name gin_trgm_ops) TABLESPACE pg_default;
+
+create index IF not exists hospitals_locality_trgm on public.medi_hospitals using gin (locality gin_trgm_ops) TABLESPACE pg_default;
+
+create index IF not exists hospitals_district_trgm on public.medi_hospitals using gin (district gin_trgm_ops) TABLESPACE pg_default;
+
+create index IF not exists hospitals_state_trgm on public.medi_hospitals using gin (state gin_trgm_ops) TABLESPACE pg_default;
+
+create index IF not exists medi_hospitals_departments_gin on public.medi_hospitals using gin (departments) TABLESPACE pg_default;
+
+create index IF not exists idx_medi_hospitals_lat_lng on public.medi_hospitals using btree (latitude, longitude) TABLESPACE pg_default;

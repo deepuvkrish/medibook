@@ -1,3 +1,5 @@
+//app/lib/data/hospitals.ts
+
 import "server-only";
 
 import { createClient } from "@/app/lib/supabase/server";
@@ -39,20 +41,18 @@ export async function getHospitalsForUser(
 
   const fetchLimit = hospitalLimit + 1;
 
-  const { data, error } = await supabase
-    .rpc("filter_hospitals", {
-      p_q: filters?.q || null,
-      p_state: filters?.state || null,
-      p_department: filters?.department || null,
-      p_lat: filters?.lat ? Number(filters.lat) : null,
-      p_lng: filters?.lng ? Number(filters.lng) : null,
-      p_distance:
-        filters?.distance && filters.distance !== "40+"
-          ? Number(filters.distance)
-          : null,
-      p_cursor: filters?.cursor || null,
-    })
-    .limit(fetchLimit);
+  const { data, error } = await supabase.rpc("filter_hospitals", {
+    p_q: filters?.q || null,
+    p_state: filters?.state || null,
+    p_department: filters?.department || null,
+    p_lat: filters?.lat ? Number(filters.lat) : null,
+    p_lng: filters?.lng ? Number(filters.lng) : null,
+    p_distance:
+      filters?.distance && filters.distance !== "40+"
+        ? Number(filters.distance)
+        : null,
+    p_cursor: filters?.cursor || null,
+  });
 
   if (error || !data) {
     console.error(error);
