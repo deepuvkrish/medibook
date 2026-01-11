@@ -18,4 +18,6 @@ export type Hospital = {
   latitude: number | null;
   longitude: number | null;
   created_at: string;
+  rating: number | null;
+  verified: boolean;
 };

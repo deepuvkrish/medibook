@@ -6,8 +6,6 @@ import { HospitalCard } from "@/app/hospital/hospital-card";
 import { HospitalFiltersClient } from "@/app/hospital/hospital-filters-client";
 import { HospitalSkeleton } from "@/app/hospital/hospital-skeleton";
 import { Suspense } from "react";
-import Link from "next/link";
-import { HealNavLogo } from "../components/ui/healLogo";
 
 export default async function HospitalsPage({
   searchParams,
@@ -32,18 +30,11 @@ export default async function HospitalsPage({
 
   return (
     <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <Link href="/">
-          <HealNavLogo w={80} h={50} />
-        </Link>
-        <Link href="/login">Sign in</Link>
-      </div>
-
       <h1 className="text-2xl font-semibold">Hospitals</h1>
 
       <Suspense fallback={<HospitalSkeleton />}>
         <HospitalFiltersClient
-          states={["Kerala", "Tamil Nadu", "Karnataka"]}
+          states={["Kerala", "Tamil Nadu", "Karnataka", "Haryana"]}
           departments={["Cardiology", "Orthopedics", "Neurology"]}
         />
       </Suspense>

@@ -8,6 +8,9 @@ import { FiExternalLink } from "react-icons/fi";
 import { SiGooglemaps } from "react-icons/si";
 import { FaCrown } from "react-icons/fa";
 import { Hospital } from "@/app/lib/types/hospital";
+import { FaStar } from "react-icons/fa";
+import { HiCheckBadge } from "react-icons/hi2";
+import { BsPatchExclamationFill } from "react-icons/bs";
 
 export function HospitalCard({
   hospital,
@@ -36,7 +39,23 @@ export function HospitalCard({
         </div>
       )}
 
-      <div className="flex flex-col px-0 py-0">
+      <div className="flex flex-col px-0 py-0 relative">
+        {hospital.verified ? (
+          <div
+            className="flex items-center absolute right-2 top-0 py-1 px-1 rounded-bl-md rounded-br-md bg-[#ffffff]/90 text-gray-500  text-[12px] font-medium z-10 shadow-sm shadow-gray-400"
+            title="verified"
+          >
+            <HiCheckBadge className="text-lime-500 text-[15px]" />
+          </div>
+        ) : (
+          <div
+            className="flex items-center absolute right-2 top-0 py-1 px-1 rounded-bl-md rounded-br-md bg-[#ffffff]/90 text-gray-500  text-[12px] font-medium z-10 shadow-sm shadow-gray-400"
+            title="Not Verified"
+          >
+            <BsPatchExclamationFill className="text-blue-400 text-[15px]" />
+          </div>
+        )}
+
         <div className="h-40 w-full overflow-hidden">
           {hospital.image_url ? (
             <Image
@@ -88,6 +107,9 @@ export function HospitalCard({
               <SiGooglemaps className="mr-1" /> Find in Map
             </Link>
           )}
+        </div>
+        <div className="flex items-center px-3 text-sm">
+          <FaStar className="mr-1 text-blue-400" /> {hospital.rating}
         </div>
       </div>
       {/* Content */}
