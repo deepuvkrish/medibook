@@ -10,17 +10,17 @@ export default function Layout({
 }>) {
   return (
     <div className="flex flex-col w-full ">
-      <div className="flex justify-between items-center p-6">
+      <div className="flex justify-between items-center p-6 bg-[#0b111d]">
         <Link href="/">
           <HealNavLogo w={80} h={50} />
         </Link>
         <Link href="/login">Sign in</Link>
       </div>
       <div className="flex w-full justify-between">
-        <div className="md:flex flex-col w-[15%] min-h-full hidden bg-red-300 p-3">
+        <div className="md:flex flex-col w-[17%] min-h-full hidden bg-[#0b111d] p-3">
           <span> Sidebar </span>
         </div>
-        <div className="flex flex-col w-[85%] p-2">{children}</div>
+        <div className="flex flex-col w-[83%] p-2">{children}</div>
       </div>
     </div>
   );
