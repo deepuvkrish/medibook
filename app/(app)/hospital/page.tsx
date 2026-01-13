@@ -1,4 +1,5 @@
 //hospital/page.tsx
+export const dynamic = "force-dynamic";
 
 import { auth } from "@/auth";
 import { getHospitalsForUser } from "@/app/lib/data/hospitals";
