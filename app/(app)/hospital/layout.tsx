@@ -1,4 +1,4 @@
-"use client";
+//hospital/layout.tsx
 
 import { ReactNode, Suspense } from "react";
 import { AppLayout } from "@/app/components/layout/AppLayout";
@@ -29,12 +29,12 @@ export default function HospitalLayout({ children }: { children: ReactNode }) {
     <AppLayout
       sidebar={
         <>
-          {/* ================= DESKTOP ================= */}
+          {/* DESKTOP */}
           <div className="hidden md:block">
             <FiltersSuspense />
           </div>
 
-          {/* ================= MOBILE ================= */}
+          {/* MOBILE */}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
