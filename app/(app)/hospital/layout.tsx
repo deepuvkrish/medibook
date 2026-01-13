@@ -1,29 +1,40 @@
 "use client";
-import { ReactNode } from "react";
+
+import { ReactNode, Suspense } from "react";
 import { AppLayout } from "@/app/components/layout/AppLayout";
 import { HospitalFiltersClient } from "./hospital-filters-client";
 import { Button } from "@/app/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/app/components/ui/sheet";
-import { HospitalSkeleton } from "./hospital-skeleton";
-import { Suspense } from "react";
+
+function FiltersSuspense() {
+  return (
+    <Suspense
+      fallback={
+        <div className="p-4 text-sm text-muted-foreground">
+          Loading filters…
+        </div>
+      }
+    >
+      <HospitalFiltersClient
+        states={["Kerala", "Tamil Nadu", "Karnataka", "Haryana"]}
+        departments={["Cardiology", "Orthopedics", "Neurology"]}
+      />
+    </Suspense>
+  );
+}
 
 export default function HospitalLayout({ children }: { children: ReactNode }) {
-  const filters = (
-    <HospitalFiltersClient
-      states={["Kerala", "Tamil Nadu", "Karnataka", "Haryana"]}
-      departments={["Cardiology", "Orthopedics", "Neurology"]}
-    />
-  );
-
   return (
     <AppLayout
       sidebar={
-        <Suspense fallback={<HospitalSkeleton />}>
-          {/* DESKTOP */}
-          <div className="hidden md:block">{filters}</div>
+        <>
+          {/* ================= DESKTOP ================= */}
+          <div className="hidden md:block">
+            <FiltersSuspense />
+          </div>
 
-          {/* MOBILE */}
+          {/* ================= MOBILE ================= */}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -36,10 +47,12 @@ export default function HospitalLayout({ children }: { children: ReactNode }) {
                 </Button>
               </SheetTrigger>
 
-              <SheetContent side="left">{filters}</SheetContent>
+              <SheetContent side="left" className="w-[85%] sm:w-[380px]">
+                <FiltersSuspense />
+              </SheetContent>
             </Sheet>
           </div>
-        </Suspense>
+        </>
       }
     >
       {children}
