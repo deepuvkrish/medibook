@@ -25,7 +25,7 @@ export function HospitalCard({
 
   return (
     <div
-      className="m-4 text-gray-300 w-[clamp(260px,80%,300px)] hover:brightness-90 transition-all cursor-pointer group bg-linear-to-tl from-gray-900 to-gray-950 hover:from-gray-800 hover:to-gray-950 rounded-lg overflow-hidden relative h-[380px]"
+      className="m-4 text-gray-600 dark:text-gray-300 w-[clamp(260px,80%,300px)]  dark:hover:brightness-90 transition-all cursor-pointer group bg-white dark:bg-linear-to-tl dark:from-gray-900 dark:to-gray-950 dark:hover:from-gray-800 dark:hover:to-gray-950 rounded-lg overflow-hidden relative h-[380px] shadow "
       onClick={() => setOpen(true)}
     >
       {/* Blur Overlay */}
@@ -75,11 +75,11 @@ export function HospitalCard({
         <div className="uppercase font-bold text-sm px-2 py-1">
           {hospital.name}
         </div>
-        <div className="flex items-center text-gray-400 uppercase tracking-widest text-[11px] m-1">
+        <div className="flex items-center text-gray-600 dark:text-gray-400 uppercase tracking-widest text-[11px] m-1">
           <MapPin className="h-3 w-3 mr-1" />
           {hospital.locality}, {hospital.district}
         </div>
-        <div className="flex w-[80%] justify-between text-gray-400 mt-2 p-2">
+        <div className="flex w-[80%] justify-between text-gray-600 dark:text-gray-400  mt-2 p-2">
           {hospital.weblink == null ? (
             <p className="flex items-center font-light uppercase text-[10px]">
               <FiExternalLink className="mr-1" /> No Website
@@ -122,8 +122,8 @@ export function HospitalCard({
         />
       </div>
 
-      <div className="h-2 w-full bg-linear-to-l via-yellow-500 group-hover:blur-xl blur-2xl m-auto rounded transition-all absolute bottom-0"></div>
-      <div className="h-0.5 group-hover:w-full bg-linear-to-l  via-yellow-950 group-hover:via-yellow-500 w-[70%] m-auto rounded transition-all absolute bottom-0"></div>
+      <div className="h-2 w-full bg-linear-to-l via-blue-400 dark:via-yellow-500 group-hover:blur-xl blur-2xl m-auto rounded transition-all absolute bottom-0"></div>
+      <div className="h-0.5 group-hover:w-full bg-linear-to-l via-gray-300 group-hover:via-blue-400  dark:via-yellow-950 dark:group-hover:via-yellow-500 w-full m-auto rounded transition-all absolute bottom-0"></div>
     </div>
   );
 }

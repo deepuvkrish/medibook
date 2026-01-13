@@ -1,9 +1,8 @@
-// hospital/hospital-filters-client.tsx
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
-import { HospitalFilters } from "./hospital-filters";
+import { HospitalFiltersSidebar } from "./hospital-filters-sidebar";
 
 const DISTANCE_TOLERANCE_KM = 2;
 
@@ -17,16 +16,10 @@ export function HospitalFiltersClient({
   const router = useRouter();
   const params = useSearchParams();
 
-  /* ---------------------------------------------
-     UI-only state (NOT filter state)
-  --------------------------------------------- */
   const [loading, setLoading] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [locationNote, setLocationNote] = useState<string | null>(null);
 
-  /* ---------------------------------------------
-     Derived filters (URL = source of truth)
-  --------------------------------------------- */
   const filters = {
     q: params.get("q") ?? "",
     state: params.get("state") ?? "",
@@ -34,9 +27,6 @@ export function HospitalFiltersClient({
     distance: params.get("distance") ?? "",
   };
 
-  /* ---------------------------------------------
-     Stable URL updater (CRITICAL)
-  --------------------------------------------- */
   const updateParams = useCallback(
     (updates: Record<string, string | undefined>) => {
       const sp = new URLSearchParams(params.toString());
@@ -46,19 +36,11 @@ export function HospitalFiltersClient({
         else sp.set(key, value);
       });
 
-      const next = `?${sp.toString()}`;
-      const current = `?${params.toString()}`;
-
-      if (next !== current) {
-        router.replace(next, { scroll: false });
-      }
+      router.replace(`?${sp.toString()}`, { scroll: false });
     },
     [params, router]
   );
 
-  /* ---------------------------------------------
-     Filter handler
-  --------------------------------------------- */
   const handleUpdate = useCallback(
     (key: keyof typeof filters, value?: string) => {
       if (key !== "distance") {
@@ -66,22 +48,14 @@ export function HospitalFiltersClient({
         return;
       }
 
-      /* Clear distance */
       if (!value) {
         setLocationError(null);
         setLocationNote(null);
-        updateParams({
-          distance: undefined,
-          lat: undefined,
-          lng: undefined,
-        });
+        updateParams({ distance: undefined, lat: undefined, lng: undefined });
         return;
       }
 
-      /* Distance selected → try GPS */
       setLoading(true);
-      setLocationError(null);
-      setLocationNote(null);
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -90,49 +64,27 @@ export function HospitalFiltersClient({
             lat: pos.coords.latitude.toFixed(6),
             lng: pos.coords.longitude.toFixed(6),
           });
-
-          setLocationNote(
-            "Using approximate location. Distances may vary slightly."
-          );
+          setLocationNote("Using approximate location.");
           setLoading(false);
         },
         () => {
-          /* Fallback: distance-only filtering */
           updateParams({ distance: value });
-
-          setLocationError(
-            "Location unavailable. Showing results without precise distance."
-          );
+          setLocationError("Location unavailable.");
           setLoading(false);
-        },
-        {
-          enableHighAccuracy: false,
-          timeout: 8000,
-          maximumAge: 60000,
         }
       );
     },
     [updateParams]
   );
 
-  /* ---------------------------------------------
-     Manual GPS trigger
-  --------------------------------------------- */
-  const useCurrentLocation = useCallback(() => {
-    handleUpdate("distance", filters.distance || "10");
-  }, [handleUpdate, filters.distance]);
-
-  /* ---------------------------------------------
-     Clear all
-  --------------------------------------------- */
-  const clearFilters = useCallback(() => {
+  const clearFilters = () => {
     setLocationError(null);
     setLocationNote(null);
     router.replace("/hospital", { scroll: false });
-  }, [router]);
+  };
 
   return (
-    <HospitalFilters
+    <HospitalFiltersSidebar
       states={states}
       departments={departments}
       values={filters}
@@ -141,7 +93,6 @@ export function HospitalFiltersClient({
       loading={loading}
       locationError={locationError}
       locationNote={locationNote}
-      onUseCurrentLocation={useCurrentLocation}
     />
   );
 }
