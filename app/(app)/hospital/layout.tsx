@@ -1,11 +1,12 @@
 "use client";
-
 import { ReactNode } from "react";
 import { AppLayout } from "@/app/components/layout/AppLayout";
 import { HospitalFiltersClient } from "./hospital-filters-client";
 import { Button } from "@/app/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/app/components/ui/sheet";
+import { HospitalSkeleton } from "./hospital-skeleton";
+import { Suspense } from "react";
 
 export default function HospitalLayout({ children }: { children: ReactNode }) {
   const filters = (
@@ -18,7 +19,7 @@ export default function HospitalLayout({ children }: { children: ReactNode }) {
   return (
     <AppLayout
       sidebar={
-        <>
+        <Suspense fallback={<HospitalSkeleton />}>
           {/* DESKTOP */}
           <div className="hidden md:block">{filters}</div>
 
@@ -38,7 +39,7 @@ export default function HospitalLayout({ children }: { children: ReactNode }) {
               <SheetContent side="left">{filters}</SheetContent>
             </Sheet>
           </div>
-        </>
+        </Suspense>
       }
     >
       {children}
