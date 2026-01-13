@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
-import { HospitalFiltersSidebar } from "./hospital-filters-sidebar";
+import { HospitalFilters } from "./hospital-filters";
 
 const DISTANCE_TOLERANCE_KM = 2;
 
@@ -16,10 +16,6 @@ export function HospitalFiltersClient({
   const router = useRouter();
   const params = useSearchParams();
 
-  const [loading, setLoading] = useState(false);
-  const [locationError, setLocationError] = useState<string | null>(null);
-  const [locationNote, setLocationNote] = useState<string | null>(null);
-
   const filters = {
     q: params.get("q") ?? "",
     state: params.get("state") ?? "",
@@ -27,21 +23,21 @@ export function HospitalFiltersClient({
     distance: params.get("distance") ?? "",
   };
 
+  const [loading, setLoading] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+
   const updateParams = useCallback(
     (updates: Record<string, string | undefined>) => {
       const sp = new URLSearchParams(params.toString());
-
-      Object.entries(updates).forEach(([key, value]) => {
-        if (!value) sp.delete(key);
-        else sp.set(key, value);
-      });
-
+      Object.entries(updates).forEach(([k, v]) =>
+        v ? sp.set(k, v) : sp.delete(k)
+      );
       router.replace(`?${sp.toString()}`, { scroll: false });
     },
     [params, router]
   );
 
-  const handleUpdate = useCallback(
+  const onUpdate = useCallback(
     (key: keyof typeof filters, value?: string) => {
       if (key !== "distance") {
         updateParams({ [key]: value });
@@ -49,14 +45,11 @@ export function HospitalFiltersClient({
       }
 
       if (!value) {
-        setLocationError(null);
-        setLocationNote(null);
         updateParams({ distance: undefined, lat: undefined, lng: undefined });
         return;
       }
 
       setLoading(true);
-
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           updateParams({
@@ -64,12 +57,11 @@ export function HospitalFiltersClient({
             lat: pos.coords.latitude.toFixed(6),
             lng: pos.coords.longitude.toFixed(6),
           });
-          setLocationNote("Using approximate location.");
           setLoading(false);
         },
         () => {
           updateParams({ distance: value });
-          setLocationError("Location unavailable.");
+          setLocationError("Location unavailable");
           setLoading(false);
         }
       );
@@ -77,22 +69,15 @@ export function HospitalFiltersClient({
     [updateParams]
   );
 
-  const clearFilters = () => {
-    setLocationError(null);
-    setLocationNote(null);
-    router.replace("/hospital", { scroll: false });
-  };
-
   return (
-    <HospitalFiltersSidebar
+    <HospitalFilters
       states={states}
       departments={departments}
       values={filters}
-      onUpdate={handleUpdate}
-      onClear={clearFilters}
       loading={loading}
       locationError={locationError}
-      locationNote={locationNote}
+      onUpdate={onUpdate}
+      onClear={() => router.replace("/hospital")}
     />
   );
 }
