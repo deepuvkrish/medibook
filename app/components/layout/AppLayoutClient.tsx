@@ -1,7 +1,7 @@
+//app/components/layout/AppLayoutClient
+
 "use client";
-
 import { ReactNode } from "react";
-
 export function AppLayoutClient({
   children,
   sidebar,

@@ -1,3 +1,5 @@
+//app/(app)/hospital/layout.tsx
+
 import { ReactNode, Suspense } from "react";
 import { AppLayout } from "@/app/components/layout/AppLayout";
 import { HospitalFiltersClient } from "./hospital-filters-client";
@@ -5,11 +7,15 @@ import { Button } from "@/app/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/app/components/ui/sheet";
 import { SlidersHorizontal } from "lucide-react";
 
+import { COUNTRIES } from "@/app/lib/codelists/countries";
+import { STATES_BY_COUNTRY } from "@/app/lib/codelists/states";
+
 function Filters() {
   return (
     <Suspense fallback={<div className="p-4 text-sm">Loading filters…</div>}>
       <HospitalFiltersClient
-        states={["Kerala", "Tamil Nadu", "Karnataka", "Haryana"]}
+        countries={COUNTRIES}
+        statesByCountry={STATES_BY_COUNTRY}
         departments={["Cardiology", "Orthopedics", "Neurology"]}
       />
     </Suspense>
@@ -21,12 +27,12 @@ export default function HospitalLayout({ children }: { children: ReactNode }) {
     <AppLayout
       sidebar={
         <>
-          {/* DESKTOP */}
+          {/* Desktop */}
           <div className="hidden md:block">
             <Filters />
           </div>
 
-          {/* MOBILE */}
+          {/* Mobile */}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>

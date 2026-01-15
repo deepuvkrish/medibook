@@ -52,10 +52,10 @@ export default function Home() {
       </div>
       <div className="content text-gray-700 w-full flex flex-col justify-center items-center h-100 mb-20">
         <div className="block md:w-150 w-full h-10 px-5">
-          <InputGroup className="border border-gray-500 py-5 focus:outline-0 focus:border-0 focus:ring-0 rounded-3xl">
+          <InputGroup className="border border-gray-500 dark:bg-white py-5 focus:outline-0 focus:border-0 focus:ring-0 rounded-3xl">
             <InputGroupInput
               placeholder="Search...hospitals, medicines, treatment, doctors..."
-              className="text-gray-900 focus:outline-0 focus:border-0 focus:ring-0  text-[14px] md:text-lg py-2"
+              className=" text-gray-900  focus:outline-0 focus:border-0 focus:ring-0  text-[14px] md:text-lg py-2 placeholder:text-gray-500"
             />
             <InputGroupAddon>
               <SearchIcon />

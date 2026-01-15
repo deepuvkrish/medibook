@@ -1,18 +1,21 @@
-//hospital/hospital-filters-client.tsx
+// hospital/hospital-filters-client.tsx
 
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { HospitalFilters } from "./hospital-filters";
+import type { Country } from "@/app/lib/codelists/countries";
 
 const DISTANCE_TOLERANCE_KM = 2;
 
 export function HospitalFiltersClient({
-  states,
+  countries,
+  statesByCountry,
   departments,
 }: {
-  states: string[];
+  countries: Country[];
+  statesByCountry: Record<string, string[]>;
   departments: string[];
 }) {
   const router = useRouter();
@@ -20,6 +23,7 @@ export function HospitalFiltersClient({
 
   const filters = {
     q: params.get("q") ?? "",
+    country: params.get("country") ?? "",
     state: params.get("state") ?? "",
     department: params.get("department") ?? "",
     distance: params.get("distance") ?? "",
@@ -31,9 +35,11 @@ export function HospitalFiltersClient({
   const updateParams = useCallback(
     (updates: Record<string, string | undefined>) => {
       const sp = new URLSearchParams(params.toString());
-      Object.entries(updates).forEach(([k, v]) =>
-        v ? sp.set(k, v) : sp.delete(k)
-      );
+
+      Object.entries(updates).forEach(([key, value]) => {
+        value ? sp.set(key, value) : sp.delete(key);
+      });
+
       router.replace(`?${sp.toString()}`, { scroll: false });
     },
     [params, router]
@@ -41,17 +47,31 @@ export function HospitalFiltersClient({
 
   const onUpdate = useCallback(
     (key: keyof typeof filters, value?: string) => {
+      // Country change → reset states
+      if (key === "country") {
+        updateParams({
+          country: value,
+          state: undefined,
+        });
+        return;
+      }
+
       if (key !== "distance") {
         updateParams({ [key]: value });
         return;
       }
 
       if (!value) {
-        updateParams({ distance: undefined, lat: undefined, lng: undefined });
+        updateParams({
+          distance: undefined,
+          lat: undefined,
+          lng: undefined,
+        });
         return;
       }
 
       setLoading(true);
+
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           updateParams({
@@ -73,13 +93,14 @@ export function HospitalFiltersClient({
 
   return (
     <HospitalFilters
-      states={states}
+      countries={countries}
+      states={filters.country ? statesByCountry[filters.country] ?? [] : []}
       departments={departments}
       values={filters}
       loading={loading}
       locationError={locationError}
       onUpdate={onUpdate}
-      onClear={() => router.replace("/hospital")}
+      onClear={() => router.replace("/hospital", { scroll: false })}
     />
   );
 }

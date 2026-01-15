@@ -1,3 +1,5 @@
+//app/components/layout/AppLayoutClient
+
 import { ReactNode } from "react";
 import { AppLayoutClient } from "./AppLayoutClient";
 
