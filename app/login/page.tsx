@@ -22,11 +22,11 @@ export default function page() {
           </Link>
         </div>
       </div>
-      <div className="absolute md:hidden block top-20">
+      <div className="relative md:hidden block mt-10">
         <MediLogo w={150} h={100} />
       </div>
 
-      <main className="flex h-fit flex-row p-6 relative mt-50 md:mt-0  w-full justify-between items-center mb-10">
+      <main className="flex h-fit flex-row-reverse p-6 relative mt-1 md:mt-0  w-full justify-between items-center mb-10">
         <div className="hidden md:flex ">
           <div className="flex flex-col items-center w-full p-4 text-center sm:p-8 ">
             <Image

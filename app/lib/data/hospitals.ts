@@ -2,22 +2,12 @@
 import "server-only";
 import { createClient } from "@/app/lib/supabase/server";
 import { getUserSubscription } from "@/app/lib/subscription/get-user-subscription";
-import { Hospital } from "@/app/lib/types/hospital";
+import { Hospital, HospitalQuery } from "@/app/lib/types/hospital";
 
 export type HospitalResult = {
   visible: Hospital[];
   hasMore: boolean; // 👈 NEW
   canViewContact: boolean;
-};
-
-//  Query params coming from URL
-type HospitalQuery = {
-  q?: string;
-  state?: string;
-  department?: string;
-  distance?: string;
-  lat?: string;
-  lng?: string;
 };
 
 export async function getHospitalsForUser(

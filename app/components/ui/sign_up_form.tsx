@@ -1,3 +1,5 @@
+//app/components/ui/sign-up-form.tsx
+
 "use client";
 // Fonts ===============================================>
 import { inter } from "@/app/components/ui/fonts";
@@ -27,13 +29,12 @@ export default function SignUpForm() {
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [errorMessage, formAction, isPending] = useActionState(
     authenticate,
-    undefined
+    undefined,
   );
 
   return (
     <form action={formAction} className="space-y-6">
       <h5 className="text-xl text-center font-medium text-white">Sign up</h5>
-
       <div>
         <label
           htmlFor="username"
@@ -53,7 +54,6 @@ export default function SignUpForm() {
           <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-200 peer-focus:text-blue-400 logicon" />
         </div>
       </div>
-
       <div>
         <label
           htmlFor="email"
@@ -73,7 +73,6 @@ export default function SignUpForm() {
           <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-200 peer-focus:text-blue-400 logicon" />
         </div>
       </div>
-
       <div>
         <label
           htmlFor="password"
@@ -143,7 +142,6 @@ export default function SignUpForm() {
       >
         Sign Up <ArrowRightIcon className="ml-2 h-5 w-5 text-gray-50" />
       </button>
-
       <div className="flex h-8 items-end space-x-1">
         {errorMessage && (
           <>
@@ -152,7 +150,6 @@ export default function SignUpForm() {
           </>
         )}
       </div>
-
       <div className="text-sm font-medium text-gray-100 border-t border-gray-700 pt-5">
         Already Have an Account?{" "}
         <Link href="/login" className="text-[#ff7aac] hover:underline ">

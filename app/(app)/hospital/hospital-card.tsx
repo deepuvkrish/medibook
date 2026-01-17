@@ -11,6 +11,7 @@ import { Hospital } from "@/app/lib/types/hospital";
 import { FaStar } from "react-icons/fa";
 import { HiCheckBadge } from "react-icons/hi2";
 import { BsPatchExclamationFill } from "react-icons/bs";
+import { PiHospitalThin } from "react-icons/pi";
 
 export function HospitalCard({
   hospital,
@@ -25,7 +26,7 @@ export function HospitalCard({
 
   return (
     <div
-      className="m-4 text-gray-600 dark:text-gray-300 w-[clamp(260px,80%,300px)]  dark:hover:brightness-90 transition-all cursor-pointer group bg-white dark:bg-linear-to-tl dark:from-gray-900 dark:to-gray-950 dark:hover:from-gray-800 dark:hover:to-gray-950 rounded-lg overflow-hidden relative h-[380px] shadow "
+      className="relative m-4 text-gray-600 dark:text-gray-300 w-[clamp(260px,80%,300px)]  dark:hover:brightness-90 transition-all cursor-pointer group bg-white dark:bg-linear-to-tl dark:from-gray-900 dark:to-gray-950 dark:hover:from-gray-800 dark:hover:to-gray-950 rounded-lg overflow-hidden h-[380px] shadow "
       onClick={() => setOpen(true)}
     >
       {/* Blur Overlay */}
@@ -108,8 +109,14 @@ export function HospitalCard({
             </Link>
           )}
         </div>
-        <div className="flex items-center px-3 text-sm">
-          <FaStar className="mr-1 text-blue-400" /> {hospital.rating}
+        <div className="flex items-center">
+          <div className="flex items-center px-3 text-sm">
+            <FaStar className="mr-1 text-blue-400" /> {hospital.rating}
+          </div>
+
+          <div className="flex items-center px-3 text-[10px] uppercase">
+            <PiHospitalThin className="mr-1 text-[14px]" /> {hospital.type}
+          </div>
         </div>
       </div>
       {/* Content */}

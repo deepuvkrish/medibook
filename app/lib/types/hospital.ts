@@ -20,4 +20,14 @@ export type Hospital = {
   created_at: string;
   rating: number | null;
   verified: boolean;
+  type: string | null;
+};
+
+export type HospitalQuery = {
+  q?: string;
+  state?: string;
+  department?: string;
+  distance?: string;
+  lat?: string;
+  lng?: string;
 };

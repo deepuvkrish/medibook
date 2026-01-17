@@ -108,7 +108,7 @@ export function HospitalDetailsModal({
 
             {services.length > 0 && (
               <div className="grid grid-cols-3 gap-2 py-2">
-                {services.slice(0, 50).map((dept: string, i: number) => (
+                {services.slice(0, 10).map((dept: string, i: number) => (
                   <span key={dept} className="flex text-[12px] items-center">
                     <IoMedicalOutline className="mr-1" />
                     {dept}

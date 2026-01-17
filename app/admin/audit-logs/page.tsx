@@ -3,6 +3,8 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import AuditClient from "./audit-client";
+import Link from "next/link";
+import { IoReturnDownBack } from "react-icons/io5";
 
 type Props = {
   searchParams: {
@@ -34,6 +36,9 @@ export default async function AuditLogsPage({ searchParams }: Props) {
 
   return (
     <div className="p-6 space-y-6">
+      <Link href="/admin">
+        Admin Panel <IoReturnDownBack className="ml-1" />
+      </Link>
       <div>
         <h1 className="text-2xl font-semibold">Audit Logs</h1>
         <p className="text-muted-foreground">Filtered system activity</p>

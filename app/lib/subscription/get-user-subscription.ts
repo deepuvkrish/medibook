@@ -1,3 +1,5 @@
+//app/lib/subsription.ts
+
 import { createClient } from "@/app/lib/supabase/server";
 
 export type UserSubscription = {
@@ -18,7 +20,7 @@ type SubscriptionRow = {
 };
 
 export async function getUserSubscription(
-  userId: string
+  userId: string,
 ): Promise<UserSubscription | null> {
   const supabase = await createClient();
 
@@ -33,7 +35,7 @@ export async function getUserSubscription(
         hospital_limit,
         allow_contact_access
       )
-    `
+    `,
     )
     .eq("user_id", userId)
     .eq("status", "active")

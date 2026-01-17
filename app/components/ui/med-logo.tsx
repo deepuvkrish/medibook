@@ -3,7 +3,13 @@ import Image from "next/image";
 export default function MediLogo({ w, h }: { w: number; h: number }) {
   return (
     <div className="flex flex-row justify-center items-center leading-none text-white">
-      <Image alt="logo" src="/logo/heal-12.png" width={w} height={h} priority />
+      <Image
+        alt="logo"
+        src="/logo/heal_nav.png"
+        width={w}
+        height={h}
+        priority
+      />
     </div>
   );
 }
